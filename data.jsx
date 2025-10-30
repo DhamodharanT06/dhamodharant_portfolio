@@ -75,8 +75,8 @@ export const memberships = [
 
 export const internships = [
   { id: 1, company: "Nitroware Technologies Pvt Ltd", role: "Machine Learning Intern", duration: "Jan 2025 - Feb 2025", description: "Learned about ML techniques and its backend integrations", technologies: "Python , Django , Flask , PyTorch , TensorFlow", color: "green" },
-  { id: 2, company: "Velrona Technologies Pvt Ltd", role: "Mobile Application Developer", duration: "Jul 2025 - Sep 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
-  { id: 3, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "green" }
+  // { id: 2, company: "Velrona Technologies Pvt Ltd", role: "Mobile Application Developer", duration: "Jul 2025 - Sep 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
+  // { id: 3, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "green" }
 ];
 
 export const publications = [
