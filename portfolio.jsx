@@ -654,10 +654,10 @@ export default function Portfolio() {
             className="relative mx-auto w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[420px] lg:h-[420px]"
           >
             <div
-              className="absolute inset-0 rounded-2xl p-[3px] shadow-2xl"
+              className="absolute inset-0 rounded-2xl p-[1.5px] shadow-2xl"
               style={{
                 background:
-                  'linear-gradient(135deg, rgba(34,211,238,0.8), rgba(168,85,247,0.6), rgba(59,130,246,0.8))',
+                  'linear-gradient(135deg, rgba(0,255,0,0.8), rgba(0,191,255,0.7), rgba(0,255,0,0.8))',
               }}
             >
       <div className="h-full w-full rounded-2xl overflow-hidden bg-black/40 backdrop-blur-sm">
