@@ -51,7 +51,7 @@ const FullScreenBackground = memo(() => {
   const dotGrid = Array.from({ length: 80 }, (_, i) => i); // Reduced from 150
   
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 perf-layer" style={{contain: 'paint', transform: 'translateZ(0)'}}>
       {/* Animated Dot Grid Pattern */}
       {dotGrid.map((i) => (
         <motion.div
@@ -60,6 +60,7 @@ const FullScreenBackground = memo(() => {
           style={{
             left: `${(i % 10) * 10}%`,
             top: `${Math.floor(i / 10) * 12.5}%`,
+            willChange: 'transform, opacity'
           }}
           animate={{
             opacity: [0.1, 0.5, 0.1],
@@ -69,7 +70,7 @@ const FullScreenBackground = memo(() => {
             duration: 3 + (i % 5),
             repeat: Infinity,
             delay: (i % 10) * 0.2,
-            ease: "easeInOut"
+            ease: "linear"
           }}
         />
       ))}
@@ -78,39 +79,43 @@ const FullScreenBackground = memo(() => {
       <div className="absolute inset-0">
         <motion.div
           className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#00FF00]/15 rounded-full blur-[100px]"
+          style={{ willChange: 'transform' }}
           animate={{
             x: [0, 200, -100, 0],
             y: [0, 150, -50, 0],
             scale: [1, 1.3, 0.9, 1]
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
           className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[#00BFFF]/20 rounded-full blur-[120px]"
+          style={{ willChange: 'transform' }}
           animate={{
             x: [0, -150, 100, 0],
             y: [0, -100, 150, 0],
             scale: [1, 1.2, 1.1, 1]
           }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
           className="absolute bottom-0 left-1/3 w-[450px] h-[450px] bg-[#00FF00]/12 rounded-full blur-[100px]"
+          style={{ willChange: 'transform' }}
           animate={{
             x: [0, -100, 150, 0],
             y: [0, 100, -80, 0],
             scale: [1, 1.15, 1.05, 1]
           }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
           className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-[#00BFFF]/15 rounded-full blur-[110px]"
+          style={{ willChange: 'transform' }}
           animate={{
             x: [0, 120, -80, 0],
             y: [0, -120, 90, 0],
             scale: [1, 1.25, 0.95, 1]
           }}
-          transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
         />
       </div>
       
@@ -122,6 +127,7 @@ const FullScreenBackground = memo(() => {
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
+            willChange: 'transform, opacity'
           }}
           animate={{
             y: [0, -50, 0],
@@ -133,7 +139,7 @@ const FullScreenBackground = memo(() => {
             duration: 4 + Math.random() * 6,
             repeat: Infinity,
             delay: Math.random() * 8,
-            ease: "easeInOut"
+            ease: "linear"
           }}
         />
       ))}
@@ -145,6 +151,7 @@ const FullScreenBackground = memo(() => {
           className="absolute w-px h-32 bg-gradient-to-b from-transparent via-[#00FF00]/40 to-transparent"
           style={{
             left: `${(i * 100) / 15}%`,
+            willChange: 'transform'
           }}
           animate={{
             y: ['-100%', '200vh']
@@ -209,7 +216,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
   const sectionDots = Array.from({ length: 25 }, (_, i) => i); // Reduced from 40
   
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+  <div className="absolute inset-0 overflow-hidden pointer-events-none perf-layer" style={{contain: 'paint', transform: 'translateZ(0)'}}>
       {/* Animated Dot Pattern for Sections */}
       {sectionDots.map((i) => (
         <motion.div
@@ -218,6 +225,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
+            willChange: 'transform, opacity'
           }}
           animate={{
             opacity: [0.2, 0.6, 0.2],
@@ -227,7 +235,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
             duration: 2 + Math.random() * 3,
             repeat: Infinity,
             delay: Math.random() * 4,
-            ease: "easeInOut"
+            ease: "linear"
           }}
         />
       ))}
@@ -236,30 +244,33 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
       <div className="absolute inset-0">
         <motion.div
           className="absolute top-10 left-10 w-64 h-64 bg-[#00FF00]/10 rounded-full blur-3xl"
+          style={{ willChange: 'transform' }}
           animate={{
             x: [0, 100, 0],
             y: [0, 50, 0],
             scale: [1, 1.2, 1]
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
           className="absolute bottom-20 right-20 w-72 h-72 bg-[#00BFFF]/15 rounded-full blur-3xl"
+          style={{ willChange: 'transform' }}
           animate={{
             x: [0, -80, 0],
             y: [0, -60, 0],
             scale: [1, 1.3, 1]
           }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
           className="absolute top-1/2 left-1/3 w-56 h-56 bg-[#00FF00]/8 rounded-full blur-3xl"
+          style={{ willChange: 'transform' }}
           animate={{
             x: [0, -50, 0],
             y: [0, 80, 0],
             scale: [1, 1.1, 1]
           }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
         />
       </div>
       
@@ -271,6 +282,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
+            willChange: 'transform, opacity'
           }}
           animate={{
             y: [0, -30, 0],
@@ -534,7 +546,7 @@ export default function Portfolio() {
                     e.preventDefault(); 
                     scrollToSection(l.id);
                     setMobileMenuOpen(false);
-                  }} 
+                  }}
                   className="block py-2 px-3 text-gray-200 hover:text-[#00BFFF] hover:bg-[#00BFFF]/15 rounded transition-colors"
                 >
                   {l.label}
@@ -664,8 +676,10 @@ export default function Portfolio() {
                   <img
                     src="/DhamodharanPic.jpg"
                     alt="Dhamodharan profile"
-        className="h-full w-full object-cover"
-        draggable={false}
+                    className="h-full w-full object-cover"
+                    draggable={false}
+                    decoding="async"
+                    style={{ willChange: 'transform, opacity', transform: 'translateZ(0)' }}
                     onError={(e) => (e.currentTarget.src = '/profile-placeholder.svg')}
                   />
               </div>

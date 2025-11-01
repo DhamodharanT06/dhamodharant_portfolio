@@ -12,3 +12,37 @@ body, #root {
   min-height: 100%;
   height: auto;
 }
+
+/* Enable text selection */
+body {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Performance optimizations - GPU acceleration */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hardware acceleration for smooth animations */
+.motion-div, [class*="animate"], [class*="motion-"] {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize blur effects */
+[class*="blur"] {
+  transform: translateZ(0);
+}
+
+/* Performance layer for animated background containers */
+.perf-layer {
+  contain: paint;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
