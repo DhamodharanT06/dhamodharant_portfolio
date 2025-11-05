@@ -5,8 +5,8 @@ import { Github, Linkedin, Mail, Phone, Download, ChevronDown, ChevronUp, Extern
 import { motion } from "framer-motion";
 import { useRef, useEffect, useState, useMemo, memo } from "react";
 import { SiHackerrank, SiLeetcode } from "react-icons/si";
-import { FaPython, FaJava, FaCuttlefish, FaHackerrank } from 'react-icons/fa';
-import { SiC, SiFlutter, SiDjango, SiFirebase, SiMysql, SiTensorflow, SiFigma, SiDart, SiHtml5, SiCss3, SiFlask, SiMongodb } from 'react-icons/si';
+import { FaPython, FaJava, FaCuttlefish, FaHackerrank, FaGit, FaGithub } from 'react-icons/fa';
+import { SiC, SiFlutter, SiDjango, SiFirebase, SiAndroidstudio,SiMysql, SiTensorflow, SiFigma, SiDart, SiHtml5, SiCss3, SiFlask, SiMongodb, SiJavascript, SiFastapi, SiPytorch, SiKeras } from 'react-icons/si';
 import { TbBrandHackerrank } from "react-icons/tb";
 import { DiPostgresql } from "react-icons/di";
 
@@ -21,7 +21,9 @@ const iconMap = {
   SiDart,
   SiHtml5,
   SiCss3,
+  SiJavascript,
   SiFlutter,
+  SiFastapi,
   SiDjango,
   SiFlask,
   SiMysql,
@@ -29,8 +31,12 @@ const iconMap = {
   SiMongodb,
   SiFirebase,
   SiTensorflow,
+  SiPytorch,
+  SiKeras,
+  SiAndroidstudio,
   SiFigma,
   FaCuttlefish,
+  FaGithub,
   Github,
   Linkedin,
   Mail,
@@ -382,7 +388,7 @@ export default function Portfolio() {
       return local;
     }
   };
-  const { previewUrl: resumePreviewUrl, downloadUrl: resumeDownloadUrl } = resolveResumeLinks("https://drive.google.com/file/d/1Egp24nAfganUMIbaUT7ABiS_DrzvvoDZ/view?usp=sharing");
+  const { previewUrl: resumePreviewUrl, downloadUrl: resumeDownloadUrl } = resolveResumeLinks("https://drive.google.com/file/d/12X6RXMxrDJguYfY3_8X8R4Xf7Y-i4Avt/view?usp=sharing");
   const NAV_OFFSET = 76;
   const [showScrollTop, setShowScrollTop] = useState(false);
   const SkillChip = memo(({ skill }) => (

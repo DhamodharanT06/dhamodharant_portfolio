@@ -5,10 +5,9 @@ export const skillsByDomain = [
     domain: "Programming Languages",
     icon: "Code",
     skills: [
-      { name: "C", color: "#0088FF", iconName: "SiC", brightColor: "#0099FF" },
       { name: "Python", color: "#00DD00", iconName: "FaPython", brightColor: "#00FF00" },
       { name: "Java", color: "#0080FF", iconName: "FaJava", brightColor: "#0099FF" },
-      { name: "Dart", color: "#00AAFF", iconName: "SiDart", brightColor: "#00CCFF" },
+      { name: "C", color: "#0088FF", iconName: "SiC", brightColor: "#0099FF" },
     ]
   },
   {
@@ -17,14 +16,24 @@ export const skillsByDomain = [
     skills: [
       { name: "HTML", color: "#00CC00", iconName: "SiHtml5", brightColor: "#00FF00" },
       { name: "CSS", color: "#0077FF", iconName: "SiCss3", brightColor: "#0099FF" },
+      { name: "JavaScript", color: "#FFFF00", iconName: "SiJavascript", brightColor: "#FFFF33" },
+    ]
+  },
+  {
+    domain: "Mobile Application Development",
+    icon: "Smartphone",
+    skills: [
+      { name: "Dart", color: "#00AAFF", iconName: "SiDart", brightColor: "#00CCFF" },
       { name: "Flutter", color: "#0088FF", iconName: "SiFlutter", brightColor: "#00AAFF" },
+      { name: "Android Studio", color: "#00DD00", iconName: "SiAndroidstudio", brightColor: "#00FF00" }
     ]
   },
   {
     domain: "Backend Frameworks",
     icon: "Database",
     skills: [
-      { name: "Django", color: "#00AA00", iconName: "SiDjango", brightColor: "#00FF00" },
+      { name: "FastAPI", color: "#00BB00", iconName: "SiFastapi", brightColor: "#00FF00" },
+      { name: "Django", color: "#00AA00", iconName: "SiDjango", brightColor: "#0088FF" },
       { name: "Flask", color: "#00BB00", iconName: "SiFlask", brightColor: "#00FF00" },
     ]
   },
@@ -39,12 +48,22 @@ export const skillsByDomain = [
     ]
   },
   {
-    domain: "AI & Design",
+    domain: "Artificial Intelligence",
     icon: "Brain",
     skills: [
       { name: "Machine Learning", color: "#0077FF", iconName: "SiTensorflow", brightColor: "#0099FF" },
-      { name: "Figma", color: "#00BB00", iconName: "SiFigma", brightColor: "#00FF00" },
-      { name: "IoT", color: "#00CC00", iconName: "FaCuttlefish", brightColor: "#00FF00" }
+      { name: "TensorFlow", color: "#0088FF", iconName: "SiTensorflow", brightColor: "#00AAFF" },
+      { name: "PyTorch", color: "#FF4444", iconName: "SiPytorch", brightColor: "#FF6666" },
+      { name: "Keras", color: "#FFDD00", iconName: "SiKeras", brightColor: "#FFFF00" }
+    ]
+  },
+  {
+    domain: "Others",
+    icon: "Brain",
+    skills: [
+      { name: "Figma UI/UX", color: "#00BB00", iconName: "SiFigma", brightColor: "#00FF00" },
+      { name: "Github", color: "#FF8800", iconName: "FaGithub", brightColor: "#FFAA00" },
+      { name: "IoT", color: "#00CC00", iconName: "FaCuttlefish", brightColor: "#0099FF" }
     ]
   }
 ];
@@ -116,6 +135,7 @@ export const auroraConfigs = [
 ];
 
 /* Resume link (string) kept same */
-export const resumeLink = "https://drive.google.com/file/d/1Egp24nAfganUMIbaUT7ABiS_DrzvvoDZ/view?usp=sharing";
+// export const resumeLink = "https://drive.google.com/file/d/1Egp24nAfganUMIbaUT7ABiS_DrzvvoDZ/view?usp=sharing";
+export const resumeLink = "https://drive.google.com/file/d/12X6RXMxrDJguYfY3_8X8R4Xf7Y-i4Avt/view?usp=sharing";
 
 
