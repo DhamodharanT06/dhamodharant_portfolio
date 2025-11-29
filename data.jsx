@@ -84,7 +84,9 @@ export const certificates = [
   { id: 1, title: "UI/UX Design", issuer: "GUVI Geeks Network Certified", description: "Design thinking and user experience fundamentals", issueDate: "2023", color: "blue", certificateUrl: "" },
   { id: 2, title: "Data Analytics with Python", issuer: "NPTEL", description: "Completed comprehensive course on data analysis and visualization using Python libraries", issueDate: "2023", color: "green", certificateUrl: "" },
   { id: 3, title: "Github Foundations", issuer: "GitHub", description: "Version control and collaboration using Git and GitHub", issueDate: "2024", color: "blue", certificateUrl: "" },
-  { id: 4, title: "Introduction to Industry 4.0 and Industrial Internet of Things", issuer: "NPTEL", description: "Comprehensive course on Industry 4.0 concepts and IoT applications", issueDate: "2025", color: "green", certificateUrl: "" }
+  { id: 4, title: "Introduction to Industry 4.0 and Industrial Internet of Things", issuer: "NPTEL", description: "Comprehensive course on Industry 4.0 concepts and IoT applications", issueDate: "2025", color: "green", certificateUrl: "" },
+  { id: 5, title: "Introduction to Large Language Model(LLMs)", issuer: "NPTEL", description: "Comprehensive course on LLMs and its related knowledge", issueDate: "2025", color: "blue", certificateUrl: "" },
+  
 ];
 
 export const memberships = [
@@ -136,6 +138,6 @@ export const auroraConfigs = [
 
 /* Resume link (string) kept same */
 // export const resumeLink = "https://drive.google.com/file/d/1Egp24nAfganUMIbaUT7ABiS_DrzvvoDZ/view?usp=sharing";
-export const resumeLink = "https://drive.google.com/file/d/12X6RXMxrDJguYfY3_8X8R4Xf7Y-i4Avt/view?usp=sharing";
+export const resumeLink = "https://drive.google.com/file/d/1LNrGe_iYhRVmkCwkC0PobQBMEunrZ8Kn/view?usp=drive_link";
 
 

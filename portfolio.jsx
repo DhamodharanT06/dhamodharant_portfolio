@@ -388,7 +388,7 @@ export default function Portfolio() {
       return local;
     }
   };
-  const { previewUrl: resumePreviewUrl, downloadUrl: resumeDownloadUrl } = resolveResumeLinks("https://drive.google.com/file/d/12X6RXMxrDJguYfY3_8X8R4Xf7Y-i4Avt/view?usp=sharing");
+  const { previewUrl: resumePreviewUrl, downloadUrl: resumeDownloadUrl } = resolveResumeLinks(resumeLink);
   const NAV_OFFSET = 76;
   const [showScrollTop, setShowScrollTop] = useState(false);
   const SkillChip = memo(({ skill }) => (
