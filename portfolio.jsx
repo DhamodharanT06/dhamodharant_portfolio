@@ -1,7 +1,5 @@
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, Phone, Download, ChevronDown, ChevronUp, ExternalLink, GraduationCap, BookOpen, Award, Users, Code, Database, Smartphone, Brain, Shield, BarChart3 } from "lucide-react";
+import { Github, Linkedin, Mail, Phone, Download, ChevronDown, ChevronUp, ExternalLink, GraduationCap, BookOpen, Award, Users, Code, Database, Smartphone, Brain, Shield, BarChart3, Clock, Briefcase } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRef, useEffect, useState, useMemo, memo } from "react";
 import { SiHackerrank, SiLeetcode } from "react-icons/si";
@@ -9,7 +7,6 @@ import { FaPython, FaJava, FaCuttlefish, FaHackerrank, FaGit, FaGithub } from 'r
 import { SiC, SiFlutter, SiDjango, SiFirebase, SiAndroidstudio,SiMysql, SiTensorflow, SiFigma, SiDart, SiHtml5, SiCss3, SiFlask, SiMongodb, SiJavascript, SiFastapi, SiPytorch, SiKeras } from 'react-icons/si';
 import { TbBrandHackerrank } from "react-icons/tb";
 import { DiPostgresql } from "react-icons/di";
-
 
 import { skillsByDomain, projects, certificates, memberships, internships, publications, navLinks, socialLinks, resumeLink, auroraConfigs } from "./data.jsx";
 
@@ -621,45 +618,49 @@ export default function Portfolio() {
         <AnimatedBackground />
         
         {/* Additional Animated Background Effects */}
-        <div className="hidden md:block absolute inset-0 pointer-events-none opacity-25">
-          <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="hidden lg:block absolute inset-0 pointer-events-none opacity-25">
+          <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[80px]" />
+          <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[80px]" />
         </div>
         
         <div className="flex flex-col items-center gap-2 relative z-10">
           <motion.h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight" whileHover={{ scale: 1.1 , transition:{duration:0.3} }}>Dhamodharan T</motion.h1>
         </div>
   <motion.p style={{ color: "#00FF00" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Mobile Application Developer | AI & ML Engineer | UI/UX Designer</motion.p>
-        <div className="flex justify-center gap-3 md:gap-5 lg:gap-4 mt-4 relative z-10">
-          {socialLinks.map((s, i) => (
-            <div key={i} className="relative group">
-              <motion.a 
-                whileHover={{ scale: 1.4, transition: { duration: 0.3 }, color: "#00FF00" }} 
-                href={s.href}
+        
+        {/* Expandable Social Links Menu */}
+        <div className="mt-6 relative z-10 flex justify-center">
+          <div className="px-2 py-1 bg-[rgba(0,255,0,0.05)] rounded-lg border border-[rgba(0,255,0,0.15)] flex gap-1">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-lg md:text-xl lg:text-2xl"
+                title={link.label}
+                className="group relative w-12 h-12 sm:w-14 sm:h-12 md:w-14 md:h-12 lg:w-14 lg:h-12 rounded-lg hover:w-28 sm:hover:w-32 md:hover:w-32 lg:hover:w-32 transition-all duration-250 ease-out flex items-center justify-center text-[#00FF00] hover:bg-[rgba(0,255,0,0.15)]"
               >
-                {getIcon(s.iconName, { size: 22 })}
-              </motion.a>
-              {/* Tooltip */}
-              <div className="absolute -top-10 md:-top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs md:text-sm px-2 md:px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-10">
-                {s.label}
-              </div>
-            </div>
-          ))}
+                <span className="flex-shrink-0 left-3 sm:left-4 absolute">
+                  {getIcon(link.iconName, { size: 18 })}
+                </span>
+                <span className="text-xs sm:text-sm font-medium whitespace-nowrap opacity-0 transform translate-x-full group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-250 ml-6 sm:ml-8">
+                  {link.label}
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </header>
 
       {/* About / Hero with large profile image */}
-  <section id="about" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
+      <div id="about" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
         {/* Animated Background Component */}
         <AnimatedBackground />
         
         {/* Additional Animated Background Effects */}
-        <div className="hidden md:block absolute inset-0 pointer-events-none opain b city-20">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="hidden lg:block absolute inset-0 pointer-events-none opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[80px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[80px]" />
         </div>
         
         <div className="grid items-center gap-6 md:gap-8 lg:gap-10 md:grid-cols-2 relative z-10">
@@ -706,10 +707,46 @@ export default function Portfolio() {
             </p>
           </motion.div>
         </div>
-      </section>
+      </div>
+
+    {/* Social Links Card
+    <div className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
+      <div className="flex justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-2xl bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] rounded-lg p-8 border border-[#00FF00]/20 shadow-lg"
+        >
+          <h3 className="text-center text-xl md:text-2xl font-semibold mb-6 text-[#00FF00]">Connect With Me</h3>
+          <div className="flex justify-center">
+            <div className="px-2 py-1 bg-[rgba(0,255,0,0.05)] rounded-lg border border-[rgba(0,255,0,0.15)] flex gap-1">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={link.label}
+                  className="group relative w-12 h-12 sm:w-14 sm:h-12 md:w-14 md:h-12 lg:w-14 lg:h-12 rounded-lg hover:w-28 sm:hover:w-32 md:hover:w-32 lg:hover:w-32 transition-all duration-250 ease-out flex items-center justify-center text-[#00FF00] hover:bg-[rgba(0,255,0,0.15)]"
+                >
+                  <span className="flex-shrink-0 left-3 sm:left-4 absolute">
+                    {getIcon(link.iconName, { size: 18 })}
+                  </span>
+                  <span className="text-xs sm:text-sm font-medium whitespace-nowrap opacity-0 transform translate-x-full group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-250 ml-6 sm:ml-8">
+                    {link.label}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div> */}
 
     {/* Skills */}
-  <section id="skills" className="relative px-0 py-8 md:py-10 lg:py-12 w-full bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] overflow-hidden">
+  <div id="skills" className="relative px-0 py-8 md:py-10 lg:py-12 w-full bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] overflow-hidden">
     {/* Animated Background Component */}
     <AnimatedBackground />
     
@@ -725,7 +762,7 @@ export default function Portfolio() {
       viewport={{ once: true }}
       className="text-center mb-12 md:mb-16 relative"
     >
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-3 bg-gradient-to-r from-[#00FF00] via-[#00BFFF] to-[#00FF00] bg-clip-text text-transparent flex items-center justify-center gap-3 animate-gradient-x">
+      <h2 className="text-2xl md:text-3xl lg:text-3xl font-extrabold mb-3 bg-gradient-to-r from-[#00FF00] via-[#00BFFF] to-[#00FF00] bg-clip-text text-transparent flex items-center justify-center gap-3 animate-gradient-x">
         <span className="inline-block animate-bounce"><svg width='32' height='32' viewBox='0 0 24 24' fill='none'><path d='M12 2L15 8H9L12 2Z' fill='#00FF00'/><path d='M12 22L9 16H15L12 22Z' fill='#00BFFF'/><circle cx='12' cy='12' r='4' fill='url(#techGradient)'/><defs><linearGradient id='techGradient' x1='8' y1='8' x2='16' y2='16' gradientUnits='userSpaceOnUse'><stop stopColor='#00FF00'/><stop offset='1' stopColor='#00BFFF'/></linearGradient></defs></svg></span>
         Tech Stack
       </h2>
@@ -888,10 +925,10 @@ export default function Portfolio() {
         );
       })}
     </div>
-  </section>
+  </div>
 
     {/* Academics */}
-    <section id="academics" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
+    <div id="academics" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
       {/* Background Effects - No AnimatedBackground here for contrast */}
       <div className="hidden md:block absolute inset-0 pointer-events-none opacity-20">
         <div className="absolute top-0 right-1/3 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" />
@@ -967,61 +1004,142 @@ export default function Portfolio() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
 
     {/* Internships */}
-    <section id="internships" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
-      {/* Background Effects - No AnimatedBackground here for contrast */}
-      <div className="hidden md:block absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '0.5s' }} />
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+    <div id="internships" className="relative px-4 md:px-8 lg:px-12 py-12 md:py-14 lg:py-16 w-full overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <div className="absolute top-1/3 -left-48 w-96 h-96 bg-[#00BFFF]/20 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '0s' }} />
+        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#00FF00]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.5s' }} />
       </div>
       
-      <motion.h2 {...createMotionDiv({initial: {y: 24}, whileInView: {y: 10}})}
-        className="text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6 md:mb-8 text-[#00BFFF] relative z-10">
-        Internship Experience
-      </motion.h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 lg:gap-6 relative z-10">
-        {internships.map((intern, index) => {
-          const colorClasses = getColorClasses(intern.color === 'green', 'certificate');
-          const borderColor = intern.color === 'green' ? 'border-[#00FF00]/30' : 'border-[#00BFFF]/40';
-          return (
-            <motion.div
-              key={intern.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative p-4 md:p-5 lg:p-6 rounded-2xl ${colorClasses.bg} border-2 ${borderColor} ${colorClasses.shadow} hover:shadow-2xl transition-all duration-300 group`}
-            >
-              <div className="flex items-start gap-3 md:gap-4">
-                <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${colorClasses.iconBg} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                  <Award className={`w-6 h-6 ${colorClasses.iconColor}`} />
-                </div>
-                <div className="flex-1">
-                  <h3 className={`text-lg md:text-xl font-bold ${colorClasses.titleColor} mb-1`}>{intern.role}</h3>
-                  <p className="text-base md:text-lg font-semibold text-gray-200 mb-1">{intern.company}</p>
-                  <p className={`text-sm ${colorClasses.dateColor} mb-3`}>{intern.duration}</p>
-                  <p className="text-sm md:text-base text-gray-300 mb-3">{intern.description}</p>
-                  {intern.technologies && (
-                    <div className="flex flex-wrap gap-2">
-                      {intern.technologies.split(',').map((tech, i) => (
-                        <span key={i} className={`text-xs px-2 py-1 rounded-full ${colorClasses.iconBg} ${colorClasses.iconColor}`}>
-                          {tech.trim()}
-                        </span>
-                      ))}
+      <motion.div {...createMotionDiv({initial: {y: 30, opacity: 0}, whileInView: {y: 0, opacity: 1}})} className="relative z-10 mb-6">
+        <h2 className="text-xl md:text-2xl lg:text-2xl font-black text-center text-[#00FF00] hover:underline decoration-[#00FF00] mb-8">
+          Internship Experience
+        </h2>
+      </motion.div>
+
+      {/* Timeline Layout */}
+      <div className="relative max-w-4xl mx-auto">
+        {/* Timeline Line */}
+        <div className="hidden md:block absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-[#00FF00] via-[#00BFFF] to-transparent" />
+
+        <div className="space-y-8 md:space-y-12">
+          {internships.map((intern, index) => {
+            const isBlueBg = intern.color === 'blue';
+            
+            return (
+              <motion.div
+                key={intern.id}
+                initial={{ opacity: 0, x: -60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
+                className="relative md:pl-32 flex items-stretch"
+              >
+                {/* Timeline Dot */}
+                <motion.div
+                  className={`absolute left-5 top-8 hidden md:flex items-center justify-center w-7 h-7 rounded-full border-4 border-[#001a00] z-30 ${
+                    isBlueBg 
+                      ? 'bg-gradient-to-br from-[#00BFFF] to-[#0088FF] shadow-lg shadow-[#00BFFF]/50' 
+                      : 'bg-gradient-to-br from-[#00FF00] to-[#00AA00] shadow-lg shadow-[#00FF00]/50'
+                  }`}
+                  whileHover={{ scale: 1.03, boxShadow: isBlueBg ? '0 0 40px rgba(0,191,255,0.9)' : '0 0 40px rgba(0,255,0,0.9)' }}
+                />
+
+                {/* Content Card */}
+                <motion.div
+                  whileHover={{ scale: 1.02, y: -8 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className={`w-full group relative p-6 rounded-xl backdrop-blur-xl border-2 transition-all duration-300 overflow-hidden ${
+                    isBlueBg
+                      ? 'bg-gradient-to-br from-[#0051a3]/12 to-[#003366]/12 border-[#00BFFF]/40 shadow-lg shadow-[#00BFFF]/12 hover:shadow-2xl hover:shadow-[#00BFFF]/30' 
+                      : 'bg-gradient-to-br from-[#003300]/12 to-[#001a00]/12 border-[#00FF00]/40 shadow-lg shadow-[#00FF00]/12 hover:shadow-2xl hover:shadow-[#00FF00]/30'
+                  }`}
+                >
+                  {/* Animated Background Glow */}
+                  <motion.div
+                    className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 ${
+                      isBlueBg ? 'bg-gradient-to-r from-[#00BFFF] to-[#0088FF]' : 'bg-gradient-to-r from-[#00FF00] to-[#00AA00]'
+                    }`}
+                  />
+
+                  <div className="relative z-10">
+                    {/* Header */}
+                    <div className="flex items-start gap-3 mb-4">
+                      <motion.div 
+                        whileHover={{ scale: 1.02, rotate: 10 }}
+                        className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 border-2 ${
+                          isBlueBg 
+                            ? 'bg-[#0051a3]/50 border-[#00BFFF]/60' 
+                            : 'bg-[#003300]/50 border-[#00FF00]/60'
+                        }`}
+                      >
+                        <Briefcase className={`w-6 h-6 ${isBlueBg ? 'text-[#00BFFF]' : 'text-[#00FF00]'}`} />
+                      </motion.div>
+                      <div className="flex-1">
+                        <h3 className={`text-lg font-bold mb-0.5 ${isBlueBg ? 'text-[#00BFFF]' : 'text-[#00FF00]'}`}>
+                          {intern.role}
+                        </h3>
+                        <p className="text-gray-300 font-semibold text-sm">{intern.company}</p>
+                      </div>
                     </div>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
+
+                    {/* Duration Badge */}
+                    <motion.div 
+                      whileHover={{ scale: 1.05 }}
+                      className={`inline-flex items-center gap-1.5 mb-3 px-3 py-1.5 rounded-full text-xs font-bold border ${
+                        isBlueBg 
+                          ? 'bg-[#0051a3]/40 text-[#00BFFF] border-[#00BFFF]/40' 
+                          : 'bg-[#003300]/40 text-[#00FF00] border-[#00FF00]/40'
+                      }`}
+                    >
+                      <Clock size={14} />
+                      {intern.duration}
+                    </motion.div>
+
+                    {/* Description */}
+                    <p className="text-gray-200 text-sm mb-4 leading-relaxed font-medium">
+                      {intern.description}
+                    </p>
+
+                    {/* Technologies */}
+                    {intern.technologies && (
+                      <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
+                        {intern.technologies.split(',').map((tech, i) => (
+                          <motion.span
+                            key={i}
+                            whileHover={{ scale: 1.02, y: -2 }}
+                            className={`text-xs font-bold px-3 py-1 rounded-full transition-all duration-200 border ${
+                              isBlueBg
+                                ? 'bg-[#0051a3]/50 text-[#00BFFF] border-[#00BFFF]/60 hover:shadow-lg hover:shadow-[#00BFFF]/40'
+                                : 'bg-[#003300]/50 text-[#00FF00] border-[#00FF00]/60 hover:shadow-lg hover:shadow-[#00FF00]/40'
+                            }`}
+                          >
+                            {tech.trim()}
+                          </motion.span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Corner Accent */}
+                  <motion.div 
+                    className={`absolute top-0 right-0 w-24 h-24 ${isBlueBg ? 'bg-gradient-to-bl from-[#00BFFF]/10' : 'bg-gradient-to-bl from-[#00FF00]/10'} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                    initial={{ rotate: 0 }}
+                    whileHover={{ rotate: 10 }}
+                  />
+                </motion.div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
-    </section>
+    </div>
 
     {/* Certificates */}
-    <section id="certificates" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
+    <div id="certificates" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
       {/* Animated Background Component */}
       <AnimatedBackground />
       
@@ -1042,13 +1160,46 @@ export default function Portfolio() {
           const isGreen = cert.color === 'green';
 
           return (
-            <motion.div key={cert.id} {...createMotionDiv({initial: {scale: 0.9}, whileInView: {scale: 1}, transition: {duration: 0.5, delay: index * 0.1}})}
+            <motion.div 
+              key={cert.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.03, y: -5 }}
-              className={`relative overflow-hidden p-4 md:p-5 lg:p-6 rounded-2xl ${colorClasses.bg} ${colorClasses.border} ${colorClasses.shadow} hover:shadow-xl transition-all duration-300 group`}>
+              className="group cursor-pointer transform transition-all duration-500 relative overflow-hidden p-4 md:p-5 lg:p-6 rounded-2xl"
+            >
+              {/* Animated Background Effects */}
+              <div className="absolute inset-0 z-0 overflow-hidden">
+                <div className={`absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500 ${
+                  isGreen 
+                    ? 'bg-gradient-to-tr from-[#00FF00]/5 to-[#00FF00]/10' 
+                    : 'bg-gradient-to-tr from-[#00BFFF]/5 to-[#00BFFF]/10'
+                }`}></div>
+                
+                <div className={`absolute -bottom-20 -left-20 w-48 h-48 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transform group-hover:scale-110 transition-all duration-700 animate-bounce ${
+                  isGreen ? 'bg-gradient-to-tr from-[#00FF00]/10 to-transparent' : 'bg-gradient-to-tr from-[#00BFFF]/10 to-transparent'
+                }`} style={{ animationDelay: '0.5s' }}></div>
+                
+                <div className={`absolute top-10 left-10 w-16 h-16 rounded-full blur-xl animate-ping ${
+                  isGreen ? 'bg-[#00FF00]/5' : 'bg-[#00BFFF]/5'
+                }`}></div>
+                
+                <div className={`absolute bottom-16 right-16 w-12 h-12 rounded-full blur-lg animate-ping ${
+                  isGreen ? 'bg-[#00FF00]/5' : 'bg-[#00BFFF]/5'
+                }`} style={{ animationDelay: '1s' }}></div>
+                
+                <div className={`absolute inset-0 transform -skew-x-12 translate-x-full group-hover:translate-x-[-200%] transition-transform duration-1000 ${
+                  isGreen 
+                    ? 'bg-gradient-to-r from-transparent via-[#00FF00]/5 to-transparent' 
+                    : 'bg-gradient-to-r from-transparent via-[#00BFFF]/5 to-transparent'
+                }`}></div>
+              </div>
 
-              <div className={`absolute top-0 right-0 w-16 h-16 ${isGreen ? 'bg-[#00FF00]/10' : 'bg-[#00BFFF]/15'} rounded-bl-3xl`}></div>
+              <div className={`absolute top-0 right-0 w-16 h-16 ${isGreen ? 'bg-[#00FF00]/10' : 'bg-[#00BFFF]/15'} rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+              <div className={`absolute bottom-0 left-0 w-16 h-16 ${isGreen ? 'bg-[#00FF00]/10' : 'bg-[#00BFFF]/15'} rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
 
-              <div className="relative z-10">
+              <div className={`relative z-10 ${colorClasses.bg} ${colorClasses.border} ${colorClasses.shadow} hover:shadow-xl transition-all duration-300`}>
                 <div className={`w-12 md:w-13 lg:w-14 h-12 md:h-13 lg:h-14 rounded-2xl ${colorClasses.iconBg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                   <Award className={`w-6 md:w-6 lg:w-7 h-6 md:h-6 lg:h-7 ${colorClasses.iconColor}`} />
                 </div>
@@ -1082,10 +1233,10 @@ export default function Portfolio() {
           );
         })}
       </div>
-    </section>
+    </div>
 
     {/* Membership */}
-    <section id="membership" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
+    <div id="membership" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
       {/* Background Effects - No AnimatedBackground here for contrast */}
       <div className="hidden md:block absolute inset-0 pointer-events-none opacity-20">
         <div className="absolute top-1/3 right-1/3 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '0.8s' }} />
@@ -1146,10 +1297,10 @@ export default function Portfolio() {
           );
         })}
       </div>
-    </section>
+    </div>
 
     {/* Publications */}
-    <section id="publications" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
+    <div id="publications" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
       {/* Animated Background Component */}
       <AnimatedBackground />
       
@@ -1241,10 +1392,10 @@ export default function Portfolio() {
           );
         })}
       </div>
-    </section>
+    </div>
 
     {/* Projects */}
-    <section id="projects" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
+    <div id="projects" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
       {/* Animated Background Component */}
       <AnimatedBackground />
       
@@ -1307,12 +1458,7 @@ export default function Portfolio() {
 
                 {/* Tech stack */}
                 <div className="space-y-3">
-                  <div className={`inline-flex items-center px-4 py-2 rounded-full ${isGreen ? 'bg-[#00FF00]' : 'bg-[#00BFFF]'}/15 border ${isGreen ? 'border-[#00FF00]' : 'border-[#00BFFF]'}/30`}>
-                    <Code className={`w-4 h-4 ${colorClasses.techColor} mr-2`} />
-                    <span className={`text-sm font-semibold ${colorClasses.techColor}`}>Tech Stack</span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 pt-6">
                     {project.tech.split(', ').map((tech, techIndex) => (
                       <span key={techIndex} className={`px-3 py-1 text-xs font-medium rounded-full ${isGreen ? 'bg-[#00FF00]' : 'bg-[#00BFFF]'}/20 ${colorClasses.techColor} border ${isGreen ? 'border-[#00FF00]' : 'border-[#00BFFF]'}/40 hover:scale-105 transition-transform duration-200`}>
                         {tech.trim()}
@@ -1365,10 +1511,10 @@ export default function Portfolio() {
           );
         })}
       </div>
-    </section>
+    </div>
 
     {/* Contact */}
-  <section id="contact" className="relative px-4 md:px-8 lg:px-12 py-6 md:py-8 lg:py-10 text-center w-full bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] overflow-hidden">
+  <div id="contact" className="relative px-4 md:px-8 lg:px-12 py-6 md:py-8 lg:py-10 text-center w-full bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] overflow-hidden">
     {/* Animated Background Component */}
     <AnimatedBackground />
     
@@ -1398,7 +1544,7 @@ export default function Portfolio() {
             Get in Touch
           </a>
         </motion.div>
-      </section>
+      </div>
 
     {/* Footer */}
   <footer className="p-4 text-center text-sm bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] text-gray-400">

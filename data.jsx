@@ -72,7 +72,9 @@ export const skillsByDomain = [
 export const skills = skillsByDomain.flatMap(domain => domain.skills);
 
 export const projects = [
+  { title: "Smart Parking System", description: "A system for non-destructive testing using ultrasonic waves and display the defect positions and depth.", tech: "Python, Raspberry Pi, Ultrasonic Sensor", projectUrl: "https://drive.google.com/drive/folders/1jyTqfdIBy71k2uf8N2uYGUXJL_vIzlWN?usp=sharing", githubUrl: "" },
   { title: "NDT Ultrasonics Project", description: "A system for non-destructive testing using ultrasonic waves and display the defect positions and depth.", tech: "Python, Raspberry Pi, Ultrasonic Sensor", projectUrl: "https://drive.google.com/drive/folders/1jyTqfdIBy71k2uf8N2uYGUXJL_vIzlWN?usp=sharing", githubUrl: "" },
+  { title: "IPL Auction Game", description: "A system for non-destructive testing using ultrasonic waves and display the defect positions and depth.", tech: "Python, Raspberry Pi, Ultrasonic Sensor", projectUrl: "https://drive.google.com/drive/folders/1jyTqfdIBy71k2uf8N2uYGUXJL_vIzlWN?usp=sharing", githubUrl: "" },
   { title: "AI Job Description Generator", description: "Generates tailored job descriptions using AI and natural language processing.", tech: "Python, Flask, Gemini API", projectUrl: "https://drive.google.com/drive/folders/1VlXCulyErYqxQ8I0E9rP6xgphqx_K1G-?usp=sharing", githubUrl: "" },
   { title: "Market Crop Price Prediction", description: "Machine learning project predicting agricultural crop prices using Random Forest algorithm.", tech: "Python, Flask, HTML, CSS", projectUrl: "", githubUrl: "https://github.com/DhamodharanT06/market_crop_price_prediction.git" },
   { title: "Hand Cricket Game", description: "An engaging singleplayer hand cricket game built with Flutter for UI and Dart for game logic.", tech: "Flutter, Dart", projectUrl: "https://drive.google.com/drive/folders/1E-Ja73MCWjkwOheMWzPjYPpYFVjTKNCm?usp=sharing", githubUrl: "https://github.com/DhamodharanT06/random_cricket.git" },
@@ -81,11 +83,12 @@ export const projects = [
 ];
 
 export const certificates = [
-  { id: 1, title: "UI/UX Design", issuer: "GUVI Geeks Network Certified", description: "Design thinking and user experience fundamentals", issueDate: "2023", color: "blue", certificateUrl: "" },
-  { id: 2, title: "Data Analytics with Python", issuer: "NPTEL", description: "Completed comprehensive course on data analysis and visualization using Python libraries", issueDate: "2023", color: "green", certificateUrl: "" },
-  { id: 3, title: "Github Foundations", issuer: "GitHub", description: "Version control and collaboration using Git and GitHub", issueDate: "2024", color: "blue", certificateUrl: "" },
-  { id: 4, title: "Introduction to Industry 4.0 and Industrial Internet of Things", issuer: "NPTEL", description: "Comprehensive course on Industry 4.0 concepts and IoT applications", issueDate: "2025", color: "green", certificateUrl: "" },
-  { id: 5, title: "Introduction to Large Language Model(LLMs)", issuer: "NPTEL", description: "Comprehensive course on LLMs and its related knowledge", issueDate: "2025", color: "blue", certificateUrl: "" },
+  { id: 1, title: "UI/UX Design", issuer: "GUVI Geeks Network Certified", description: "Design thinking and user experience fundamentals", issueDate: "2023", color: "blue", certificateUrl: "https://drive.google.com/file/d/1KlFgNFfrKrWSKeFNWvZ7AsdxIpH3WHF-/view?usp=drive_link" },
+  { id: 2, title: "Data Analytics with Python", issuer: "NPTEL", description: "Completed comprehensive course on data analysis and visualization using Python libraries", issueDate: "2023", color: "green", certificateUrl: "https://archive.nptel.ac.in/content/noc/NOC24/SEM1/Ecertificates/106/noc24-cs20/Course/NPTEL24CS20S105380433130354266.pdf" },
+  { id: 3, title: "Github Foundations", issuer: "GitHub", description: "Version control and collaboration using Git and GitHub", issueDate: "2024", color: "blue", certificateUrl: "https://drive.google.com/file/d/1tuJ4bIAH4uhBpKDLi_nqRR8xRmAs961C/view?usp=drive_link" },
+  { id: 4, title: "Introduction to Industry 4.0 and Industrial Internet of Things", issuer: "NPTEL", description: "Comprehensive course on Industry 4.0 concepts and IoT applications", issueDate: "2025", color: "green", certificateUrl: "https://archive.nptel.ac.in/content/noc/NOC25/SEM1/Ecertificates/106/noc25-cs43/Course/NPTEL25CS43S24360387804329203.pdf" },
+  { id: 5, title: "Flutter for Beginners", issuer: "Great Learning", description: "Learned the basics of Mobile application development using Flutter", issueDate: "2024", color: "blue", certificateUrl: "https://drive.google.com/file/d/1X9ThwYdg3pHJL8MF44Mt8HuPaNmuCX9U/view?usp=sharing" },
+  { id: 6, title: "Introduction to Large Language Model(LLMs)", issuer: "NPTEL", description: "Comprehensive course on LLMs and its related knowledge", issueDate: "2025", color: "green", certificateUrl: "https://archive.nptel.ac.in/content/noc/NOC25/SEM2/Ecertificates/106/noc25-cs161/Course/NPTEL25CS161S125430025710252195.pdf" },
   
 ];
 
@@ -95,9 +98,9 @@ export const memberships = [
 ];
 
 export const internships = [
-  { id: 1, company: "Nitroware Technologies Pvt Ltd", role: "Machine Learning Intern", duration: "Jan 2025 - Feb 2025", description: "Learned about ML techniques and its backend integrations", technologies: "Python , Django , Flask , PyTorch , TensorFlow", color: "green" },
-  // { id: 2, company: "Velrona Technologies Pvt Ltd", role: "Mobile Application Developer", duration: "Jul 2025 - Sep 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
-  // { id: 3, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "green" }
+  { id: 1, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "green" },
+  { id: 2, company: "Onekit.inc", role: "Mobile Application Developer", duration: "Jul 2025 - Sep 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
+  { id: 3, company: "Nitroware Technologies Pvt Ltd", role: "Machine Learning Intern", duration: "Jan 2025 - Feb 2025", description: "Learned about ML techniques and its backend integrations", technologies: "Python , Django , Flask , PyTorch , TensorFlow", color: "green" },
 ];
 
 export const publications = [
@@ -113,7 +116,20 @@ export const publications = [
     doi: "Pending",
     status: "Accepted to Publish",
     color: "green"
-  }
+  },
+  {
+    id: 2,
+    title: "Self-Adaptive Vision-Based Smart Parking System",
+    authors: "Dhamodharan T",
+    journal: "Engineering Advance",
+    book: "Blockchain and AI for Security and Privacy in Smart Agriculture",
+    year: "2025",
+    volume: "Paper Publication",
+    pages: "--",
+    doi: "Pending",
+    status: "Accepted to Publish",
+    color: "blue"
+  },
 ];
 
 export const navLinks = [
@@ -138,6 +154,37 @@ export const auroraConfigs = [
 
 /* Resume link (string) kept same */
 // export const resumeLink = "https://drive.google.com/file/d/1Egp24nAfganUMIbaUT7ABiS_DrzvvoDZ/view?usp=sharing";
-export const resumeLink = "https://drive.google.com/file/d/1LNrGe_iYhRVmkCwkC0PobQBMEunrZ8Kn/view?usp=drive_link";
+// export const resumeLink = "https://drive.google.com/file/d/1LNrGe_iYhRVmkCwkC0PobQBMEunrZ8Kn/view?usp=drive_link";
+export const resumeLink = "https://drive.google.com/file/d/1-YHSAe50igenOXtfFt5hx4dU1b4oD6ES/view?usp=sharing";
+
+/* UI Content & Static Text */
+export const uiContent = {
+  header: {
+    name: "Dhamodharan T",
+    title: "Mobile Application Developer | AI & ML Engineer | UI/UX Designer"
+  },
+  about: {
+    heading: "About Me",
+    description: "Passionate developer with experience in Mobile App Development, Machine Learning, IoT, and UI/UX Design. I enjoy building interactive, real-time applications and polished user experiences."
+  },
+  skills: {
+    heading: "Tech Stack"
+  },
+  academics: {
+    heading: "Academic Journey",
+  },
+  resume: {
+    preview: "Preview Resume",
+    download: "Download Resume"
+  },
+  sections: {
+    internships: "Internship Experience",
+    projects: "Projects & Portfolio",
+    certificates: "Certifications",
+    publications: "Publications",
+    contact: "Get In Touch"
+  }
+};
+
 
 
