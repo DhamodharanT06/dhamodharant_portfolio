@@ -1,1 +1,17 @@
 .vercel
+.env
+node_modules
+.DS_Store
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.vscode/
+dist/
+build/
+coverage/
+.next/
+out/
+.idea/
+*.iml
+.env.local
+.env.development.local

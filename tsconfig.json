@@ -9,7 +9,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "allowJs": true
   },
-  "include": ["src", "src/**/*", "**/*.ts", "**/*.tsx"]
+  "include": ["src", "portfolio.jsx", "data.jsx"],
+  "exclude": ["node_modules"]
 }

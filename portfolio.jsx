@@ -1,5 +1,5 @@
 
-import { Github, Linkedin, Mail, Phone, Download, ChevronDown, ChevronUp, ExternalLink, GraduationCap, BookOpen, Award, Users, Code, Database, Smartphone, Brain, Shield, BarChart3, Clock, Briefcase } from "lucide-react";
+import { Github, Linkedin, Mail, Phone, Download, ChevronDown, ChevronUp, ExternalLink, GraduationCap, BookOpen, Award, Users, Code, Database, Smartphone, Brain, Shield, BarChart3, Clock, Briefcase, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRef, useEffect, useState, useMemo, memo } from "react";
 import { SiHackerrank, SiLeetcode } from "react-icons/si";
@@ -8,7 +8,9 @@ import { SiC, SiFlutter, SiDjango, SiFirebase, SiAndroidstudio,SiMysql, SiTensor
 import { TbBrandHackerrank } from "react-icons/tb";
 import { DiPostgresql } from "react-icons/di";
 
-import { skillsByDomain, projects, certificates, memberships, internships, publications, navLinks, socialLinks, resumeLink, auroraConfigs } from "./data.jsx";
+import { skillsByDomain, projects, certificates, memberships, internships, publications, navLinks, socialLinks, resumeLink, auroraConfigs, academics } from "./data.jsx";
+import PublicationCard from "./src/components/PublicationCard.jsx";
+import SocialCard from "./src/components/SocialCard.jsx";
 
 // Utility to map iconName string to actual React component
 const iconMap = {
@@ -48,6 +50,368 @@ function getIcon(iconName, props) {
   return Icon ? <Icon {...props} /> : null;
 }
 
+// Project Details Popover Component
+const ProjectDetailsPopover = ({ project, isOpen, onClose, position }) => {
+  if (!isOpen) return null;
+
+  // Calculate center position of the section
+  let centerTop = window.innerHeight / 2;
+  let centerLeft = window.innerWidth / 2;
+  
+  if (position) {
+    // Position dialog near the button, centered in section
+    centerTop = position.top + (position.height / 2);
+    centerLeft = position.left + (position.width / 2);
+  }
+
+  return (
+    <>
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+      />
+      
+      {/* Dialog Box - Centered in section - Responsive */}
+      <motion.div
+        initial={{ scale: 0.7, opacity: 0, y: -20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.7, opacity: 0, y: -20 }}
+        transition={{ type: "spring", stiffness: 400, damping: 35 }}
+        onClick={(e) => e.stopPropagation()}
+        className="fixed z-50 max-h-[90vh] overflow-y-auto p-3 sm:p-4 md:p-4"
+        style={{
+          width: window.innerWidth < 640 ? 'calc(100% - 24px)' : window.innerWidth < 1024 ? 'calc(100% - 40px)' : '90%',
+          maxWidth: window.innerWidth < 640 ? '340px' : window.innerWidth < 1024 ? '500px' : '900px',
+          top: `${centerTop*0.95}px`,
+          // left: `30%`,
+          height: window.innerWidth < 640 ? '4%' : '90%',
+          left: window.innerWidth < 640 ? '10px' : window.innerWidth < 1024 ? '20%' : '20%',
+          transform: 'translate(-50%, -50%)',
+          boxShadow: '0 0 80px rgba(0, 217, 255, 0.3), inset 0 0 40px rgba(0, 217, 255, 0.1)'
+        }}
+      >
+        <div 
+          className="bg-gradient-to-br from-[#0A0A0A] to-[#000000] border-2 border-[#00D9FF]/40 rounded-xl p-8 shadow-2xl relative"
+          style={{ boxShadow: '0 0 80px rgba(0, 217, 255, 0.3), inset 0 0 40px rgba(0, 217, 255, 0.1)' }}
+        >
+            {/* Gradient accent */}
+            <div className="absolute top-0 right-0 w-40 h-40 bg-[#00D9FF]/10 rounded-full blur-3xl -z-10" />
+            <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#0891B2]/10 rounded-full blur-3xl -z-10" />
+
+          {/* Close Button */}
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.15, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#00D9FF]/15 flex items-center justify-center hover:bg-[#00D9FF]/30 transition-all duration-300 border border-[#00D9FF]/30 z-50"
+          >
+            <X className="w-6 h-6 text-[#00D9FF]" />
+          </motion.button>
+
+          {/* Content */}
+          <div className="space-y-5">
+            {/* Title Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-[#00D9FF] to-[#0891B2] bg-clip-text text-transparent mb-2">
+                {project.title}
+              </h2>
+              <p className="text-gray-300 text-base">{project.description}</p>
+            </motion.div>
+
+            <div className="h-px bg-gradient-to-r from-[#00D9FF]/30 to-transparent" />
+
+            {/* Full Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+            >
+              <h3 className="text-lg font-semibold text-[#00D9FF] mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#00D9FF]"></span>
+                About This Project
+              </h3>
+              <p className="text-gray-400 leading-relaxed text-sm">{project.fullDescription}</p>
+            </motion.div>
+
+            {/* Features */}
+            {project.features && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <h3 className="text-lg font-semibold text-[#00D9FF] mb-3 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#00D9FF]"></span>
+                  Key Features
+                </h3>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {project.features.map((feature, idx) => (
+                    <motion.li
+                      key={idx}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 + idx * 0.04 }}
+                      className="flex items-start gap-2 text-gray-300 text-sm bg-[#00D9FF]/5 rounded-lg p-2 border border-[#00D9FF]/20"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00D9FF] mt-1.5 flex-shrink-0"></span>
+                      <span>{feature}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
+
+            {/* Technologies */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+            >
+              <h3 className="text-lg font-semibold text-[#00D9FF] mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#0891B2]"></span>
+                Tech Stack
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {project.tech.split(', ').map((tech, idx) => (
+                  <motion.span
+                    key={idx}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.25 + idx * 0.03 }}
+                    className="px-4 py-2 bg-gradient-to-r from-[#00D9FF]/20 to-[#0891B2]/20 border border-[#00D9FF]/40 rounded-full text-sm text-[#00D9FF] font-semibold hover:shadow-lg hover:shadow-[#00D9FF]/30 transition-all duration-300"
+                  >
+                    {tech.trim()}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex gap-3 pt-4 border-t border-gray-600/30"
+            >
+              {project.projectUrl && (
+                <motion.a
+                  href={project.projectUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-[#00D9FF]/20 to-[#00D9FF]/10 border border-[#00D9FF]/50 rounded-xl text-[#00D9FF] font-bold hover:bg-gradient-to-r hover:from-[#00D9FF]/30 hover:to-[#00D9FF]/20 hover:shadow-lg hover:shadow-[#00D9FF]/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  View Project
+                </motion.a>
+              )}
+              {project.githubUrl && (
+                <motion.a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-[#0891B2]/20 to-[#0891B2]/10 border border-[#0891B2]/50 rounded-xl text-[#0891B2] font-bold hover:bg-gradient-to-r hover:from-[#0891B2]/30 hover:to-[#0891B2]/20 hover:shadow-lg hover:shadow-[#0891B2]/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                >
+                  <FaGithub className="w-4 h-4" />
+                  GitHub
+                </motion.a>
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </>
+  );
+};
+
+// Certificate Details Dialog Component
+const CertificateDetailsDialog = ({ certificate, isOpen, onClose, position }) => {
+  if (!isOpen) return null;
+
+  // Calculate center position of the section
+  let centerTop = window.innerHeight / 2;
+  let centerLeft = window.innerWidth / 2;
+  
+  if (position) {
+    // Position dialog near the button, centered in section
+    centerTop = position.top + (position.height / 2);
+    centerLeft = position.left + (position.width / 2);
+  }
+
+  return (
+    <>
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+      />
+      
+      {/* Dialog Box - Centered in section - Responsive */}
+      <motion.div
+        initial={{ scale: 0.7, opacity: 0, y: -20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.7, opacity: 0, y: -20 }}
+        transition={{ type: "spring", stiffness: 400, damping: 35 }}
+        onClick={(e) => e.stopPropagation()}
+        className="fixed z-50 max-h-[90vh] overflow-y-auto p-3 sm:p-4 md:p-4"
+        style={{
+          width: window.innerWidth < 640 ? 'calc(100% - 24px)' : window.innerWidth < 1024 ? 'calc(100% - 40px)' : '90%',
+          height: window.innerWidth < 640 ? '4%' : '90%',
+          maxWidth: window.innerWidth < 640 ? '340px' : window.innerWidth < 1024 ? '500px' : '1000px',
+          top: `${centerTop*0.95}px`,
+          // left: `30%`,
+          // height: window.innerWidth < 640 ? '4%' : '90%',
+          left: window.innerWidth < 640 ? '10px' : window.innerWidth < 1024 ? '20%' : '20%',
+          transform: 'translate(-50%, -50%)',
+          boxShadow: '0 0 80px rgba(0, 217, 255, 0.3), inset 0 0 40px rgba(0, 217, 255, 0.1)'
+        }}
+      >
+        <div 
+          className="bg-gradient-to-br from-[#0A0A0A] to-[#000000] border-2 border-[#00D9FF]/40 rounded-xl p-8 shadow-2xl relative"
+          style={{ boxShadow: '0 0 80px rgba(0, 217, 255, 0.3), inset 0 0 40px rgba(0, 217, 255, 0.1)' }}
+        >
+          {/* Gradient accent */}
+          <div className="absolute top-0 right-0 w-40 h-40 bg-[#00D9FF]/10 rounded-full blur-3xl -z-10" />
+          <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#0891B2]/10 rounded-full blur-3xl -z-10" />
+
+          {/* Close Button */}
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.15, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#00D9FF]/15 flex items-center justify-center hover:bg-[#00D9FF]/30 transition-all duration-300 border border-[#00D9FF]/30 z-50"
+          >
+            <X className="w-6 h-6 text-[#00D9FF]" />
+          </motion.button>
+
+          {/* Close Button */}
+          <motion.button
+            whileHover={{ scale: 1.15, rotate: 90 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={onClose}
+            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[#00D9FF]/15 flex items-center justify-center hover:bg-[#00D9FF]/30 transition-all duration-300 border border-[#00D9FF]/30"
+          >
+            <X className="w-6 h-6 text-[#00D9FF]" />
+          </motion.button>
+
+          {/* Content */}
+          <div className="space-y-6">
+            {/* Title Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-[#00D9FF] to-[#0891B2] bg-clip-text text-transparent mb-2">
+                {certificate.title}
+              </h2>
+              <p className="text-gray-300 text-base font-semibold">{certificate.issuer}</p>
+            </motion.div>
+
+            <div className="h-px bg-gradient-to-r from-[#00D9FF]/30 to-transparent" />
+
+            {/* Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+            >
+              <h3 className="text-lg font-semibold text-[#00D9FF] mb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#00D9FF]"></span>
+                About This Certificate
+              </h3>
+              <p className="text-gray-400 leading-relaxed text-sm">{certificate.description}</p>
+            </motion.div>
+
+            {/* Certificate Preview */}
+            {certificate.certificateUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <h3 className="text-lg font-semibold text-[#00D9FF] mb-3 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#0891B2]"></span>
+                  Certificate Preview
+                </h3>
+                <div className="rounded-2xl overflow-hidden border-2 border-[#00D9FF]/30 bg-gray-900/50 p-4">
+                  <iframe
+                    src={certificate.certificateUrl.replace('/view', '/preview')}
+                    className="w-full h-80 rounded-lg border border-gray-600/30"
+                    title={certificate.title}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Issue Date */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="flex items-center gap-3 p-3 bg-[#00D9FF]/10 rounded-xl border border-[#00D9FF]/30"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#00D9FF]"></span>
+              <span className="text-gray-300 text-sm">
+                <span className="text-[#00D9FF] font-semibold">Issued:</span> {certificate.issueDate}
+              </span>
+            </motion.div>
+
+            {/* Action Button */}
+            {certificate.certificateUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="flex gap-3 pt-2"
+              >
+                <motion.a
+                  href={certificate.certificateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-[#00D9FF]/20 to-[#00D9FF]/10 border border-[#00D9FF]/50 rounded-xl text-[#00D9FF] font-bold hover:bg-gradient-to-r hover:from-[#00D9FF]/30 hover:to-[#00D9FF]/20 hover:shadow-lg hover:shadow-[#00D9FF]/30 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                  View Full Size
+                </motion.a>
+              </motion.div>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </>
+  );
+};
+
 // Full Screen Animated Background Component - Optimized
 const FullScreenBackground = memo(() => {
   const particles = Array.from({ length: 30 }, (_, i) => i); // Reduced from 50
@@ -59,7 +423,7 @@ const FullScreenBackground = memo(() => {
       {dotGrid.map((i) => (
         <motion.div
           key={`dot-${i}`}
-          className="absolute w-1 h-1 bg-[#00FF00] rounded-full"
+          className="absolute w-1 h-1 bg-[#00D9FF] rounded-full"
           style={{
             left: `${(i % 10) * 10}%`,
             top: `${Math.floor(i / 10) * 12.5}%`,
@@ -81,7 +445,7 @@ const FullScreenBackground = memo(() => {
       {/* Large Floating Orbs */}
       <div className="absolute inset-0">
         <motion.div
-          className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#00FF00]/15 rounded-full blur-[100px]"
+          className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#00D9FF]/10 rounded-full blur-[100px]"
           style={{ willChange: 'transform' }}
           animate={{
             x: [0, 200, -100, 0],
@@ -91,7 +455,7 @@ const FullScreenBackground = memo(() => {
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
-          className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[#00BFFF]/20 rounded-full blur-[120px]"
+          className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[#0891B2]/12 rounded-full blur-[120px]"
           style={{ willChange: 'transform' }}
           animate={{
             x: [0, -150, 100, 0],
@@ -101,7 +465,7 @@ const FullScreenBackground = memo(() => {
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
-          className="absolute bottom-0 left-1/3 w-[450px] h-[450px] bg-[#00FF00]/12 rounded-full blur-[100px]"
+          className="absolute bottom-0 left-1/3 w-[450px] h-[450px] bg-[#001F26]/8 rounded-full blur-[100px]"
           style={{ willChange: 'transform' }}
           animate={{
             x: [0, -100, 150, 0],
@@ -111,7 +475,7 @@ const FullScreenBackground = memo(() => {
           transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-[#00BFFF]/15 rounded-full blur-[110px]"
+          className="absolute bottom-1/4 right-1/4 w-[550px] h-[550px] bg-[#00D9FF]/10 rounded-full blur-[110px]"
           style={{ willChange: 'transform' }}
           animate={{
             x: [0, 120, -80, 0],
@@ -126,7 +490,7 @@ const FullScreenBackground = memo(() => {
       {particles.map((i) => (
         <motion.div
           key={i}
-          className="absolute w-1.5 h-1.5 bg-[#00FF00] rounded-full shadow-[0_0_10px_#00FF00]"
+          className="absolute w-1.5 h-1.5 bg-[#00D9FF] rounded-full shadow-[0_0_10px_#00D9FF]"
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
@@ -151,7 +515,7 @@ const FullScreenBackground = memo(() => {
       {Array.from({ length: 15 }, (_, i) => (
         <motion.div
           key={`rain-${i}`}
-          className="absolute w-px h-32 bg-gradient-to-b from-transparent via-[#00FF00]/40 to-transparent"
+          className="absolute w-px h-32 bg-gradient-to-b from-transparent via-[#00D9FF]/30 to-transparent"
           style={{
             left: `${(i * 100) / 15}%`,
             willChange: 'transform'
@@ -170,7 +534,7 @@ const FullScreenBackground = memo(() => {
       
       {/* Scanning Lines */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00FF00]/8 to-transparent h-40"
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00D9FF]/5 to-transparent h-40"
         animate={{
           y: ['-20%', '120%']
         }}
@@ -184,7 +548,7 @@ const FullScreenBackground = memo(() => {
       {/* Pulsing Ring Effects */}
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.div
-          className="absolute w-32 h-32 border-2 border-[#00FF00]/20 rounded-full"
+          className="absolute w-32 h-32 border-2 border-[#00D9FF]/20 rounded-full"
           animate={{
             scale: [1, 3, 1],
             opacity: [0.5, 0, 0.5]
@@ -196,7 +560,7 @@ const FullScreenBackground = memo(() => {
           }}
         />
         <motion.div
-          className="absolute w-32 h-32 border-2 border-[#00BFFF]/30 rounded-full"
+          className="absolute w-32 h-32 border-2 border-[#0891B2]/25 rounded-full"
           animate={{
             scale: [1, 4, 1],
             opacity: [0.5, 0, 0.5]
@@ -224,7 +588,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
       {sectionDots.map((i) => (
         <motion.div
           key={`section-dot-${i}`}
-          className="absolute w-0.5 h-0.5 bg-[#00FF00] rounded-full"
+          className="absolute w-0.5 h-0.5 bg-[#00D9FF] rounded-full"
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
@@ -246,7 +610,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
       {/* Floating Orbs */}
       <div className="absolute inset-0">
         <motion.div
-          className="absolute top-10 left-10 w-64 h-64 bg-[#00FF00]/10 rounded-full blur-3xl"
+          className="absolute top-10 left-10 w-64 h-64 bg-[#00D9FF]/8 rounded-full blur-3xl"
           style={{ willChange: 'transform' }}
           animate={{
             x: [0, 100, 0],
@@ -256,7 +620,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
-          className="absolute bottom-20 right-20 w-72 h-72 bg-[#00BFFF]/15 rounded-full blur-3xl"
+          className="absolute bottom-20 right-20 w-72 h-72 bg-[#0891B2]/10 rounded-full blur-3xl"
           style={{ willChange: 'transform' }}
           animate={{
             x: [0, -80, 0],
@@ -266,7 +630,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
           transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/3 w-56 h-56 bg-[#00FF00]/8 rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/3 w-56 h-56 bg-[#001F26]/6 rounded-full blur-3xl"
           style={{ willChange: 'transform' }}
           animate={{
             x: [0, -50, 0],
@@ -281,7 +645,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
       {particles.map((i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 bg-[#00FF00] rounded-full"
+          className="absolute w-1 h-1 bg-[#00D9FF] rounded-full"
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
@@ -304,7 +668,7 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
       
       {/* Scanning Lines */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00FF00]/5 to-transparent h-32"
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00D9FF]/5 to-transparent h-32"
         animate={{
           y: ['-100%', '200%']
         }}
@@ -318,11 +682,214 @@ const AnimatedBackground = memo(({ variant = 'default' }) => {
   );
 });
 
+// Contact Form Component
+const ContactForm = () => {
+  const formRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setSubmitStatus(null);
+
+    try {
+      // Using FormSubmit - free service, no API key needed
+      const formData2 = new FormData();
+      formData2.append('name', formData.name);
+      formData2.append('email', formData.email);
+      formData2.append('subject', formData.subject);
+      formData2.append('message', formData.message);
+      formData2.append('_captcha', 'false'); // Disable captcha
+      formData2.append('_template', 'box'); // Use box template
+
+      const response = await fetch('https://formsubmit.co/dhamodharant17@gmail.com', {
+        method: 'POST',
+        body: formData2,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setSubmitStatus({ type: 'success', message: 'Message sent successfully! 🎉' });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setSubmitStatus(null), 5000);
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Form error:', error);
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Failed to send message. Please try again.' 
+      });
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      className="bg-gradient-to-br from-[#0A0A0A]/60 to-[#000000]/60 backdrop-blur-sm border border-[#00D9FF]/30 rounded-3xl p-6 md:p-8 shadow-2xl w-full max-w-lg mx-auto relative"
+      style={{ boxShadow: '0 0 80px rgba(0, 217, 255, 0.15), inset 0 0 40px rgba(0, 217, 255, 0.05)' }}
+    >
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+        {/* Name Field */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <label className="block text-gray-200 text-sm font-medium mb-2">Your Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            placeholder="John Doe"
+            className="w-full px-4 py-3 bg-[#0A0A0A]/50 border border-[#00D9FF]/30 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:border-[#00D9FF] focus:ring-2 focus:ring-[#00D9FF]/20 transition-all duration-300"
+          />
+        </motion.div>
+
+        {/* Email Field */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.15 }}
+        >
+          <label className="block text-gray-200 text-sm font-medium mb-2">Your Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            placeholder="your.email@example.com"
+            className="w-full px-4 py-3 bg-[#0A0A0A]/50 border border-[#00D9FF]/30 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:border-[#00D9FF] focus:ring-2 focus:ring-[#00D9FF]/20 transition-all duration-300"
+          />
+        </motion.div>
+
+        {/* Subject Field */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <label className="block text-gray-200 text-sm font-medium mb-2">Subject</label>
+          <input
+            type="text"
+            name="subject"
+            value={formData.subject}
+            onChange={handleChange}
+            required
+            placeholder="Project Inquiry"
+            className="w-full px-4 py-3 bg-[#0A0A0A]/50 border border-[#00D9FF]/30 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:border-[#00D9FF] focus:ring-2 focus:ring-[#00D9FF]/20 transition-all duration-300"
+          />
+        </motion.div>
+
+        {/* Message Field */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.25 }}
+        >
+          <label className="block text-gray-200 text-sm font-medium mb-2">Message</label>
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            rows="5"
+            placeholder="Write your message here..."
+            className="w-full px-4 py-3 bg-[#0A0A0A]/50 border border-[#00D9FF]/30 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:border-[#00D9FF] focus:ring-2 focus:ring-[#00D9FF]/20 transition-all duration-300 resize-none"
+          />
+        </motion.div>
+
+        {/* Status Message */}
+        {submitStatus && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className={`p-4 rounded-xl border-2 text-center font-semibold ${
+              submitStatus.type === 'success'
+                ? 'bg-green-500/10 border-green-500/50 text-green-400'
+                : 'bg-red-500/10 border-red-500/50 text-red-400'
+            }`}
+          >
+            {submitStatus.message}
+          </motion.div>
+        )}
+
+        {/* Send Button */}
+        <motion.button
+          type="submit"
+          disabled={isLoading}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          whileHover={{ scale: isLoading ? 1 : 1.05, boxShadow: isLoading ? 'none' : '0 0 40px rgba(0, 217, 255, 0.5)' }}
+          whileTap={{ scale: isLoading ? 1 : 0.95 }}
+          className={`w-full px-6 py-3 bg-gradient-to-r from-[#00D9FF] to-[#0891B2] hover:from-[#0891B2] hover:to-[#00D9FF] text-black font-bold rounded-xl transition-all duration-300 shadow-lg cursor-pointer ${
+            isLoading ? 'opacity-70 cursor-not-allowed' : ''
+          }`}
+        >
+          {isLoading ? 'Sending...' : 'Send Message'}
+        </motion.button>
+
+        {/* Alternative Contact Methods */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="pt-6 border-t border-[#00D9FF]/20 space-y-3"
+        >
+          <p className="text-gray-300 text-sm text-center">Or reach me directly:</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="tel:9025381459" className="inline-flex items-center gap-2 text-[#00D9FF] hover:text-[#0891B2] transition-colors text-sm">
+              <Phone size={18} />
+              <span>9025381459</span>
+            </a>
+            <span className="hidden sm:inline text-gray-500">•</span>
+            <a href="mailto:dhamodharant17@gmail.com" className="inline-flex items-center gap-2 text-[#00D9FF] hover:text-[#0891B2] transition-colors text-sm">
+              <Mail size={18} />
+              <span>dhamodharant17@gmail.com</span>
+            </a>
+          </div>
+          <p className="text-xs text-gray-400 pt-2 text-center">KPR Institute of Engineering and Technology • B.E CSE(AIML)</p>
+        </motion.div>
+      </form>
+    </motion.div>
+  );
+};
+
 export default function Portfolio() {
   // Utility functions for cleaner code
   const getColorClasses = (isGreen, type = 'default') => {
-    const base = isGreen ? { primary: '#00FF00', secondary: '#00BFFF', bg1: '#001a00', bg2: '#001a0a' } 
-                         : { primary: '#00BFFF', secondary: '#00FF00', bg1: '#001a0a', bg2: '#001a00' };
+    const base = isGreen ? { primary: '#00D9FF', secondary: '#0891B2', bg1: '#000000', bg2: '#0A0A0A' } 
+                         : { primary: '#00D9FF', secondary: '#0891B2', bg1: '#000000', bg2: '#0A0A0A' };
+    // const base = isGreen ? { primary: '#00D9FF', secondary: '#0891B2', bg1: '#000000', bg2: '#0A0A0A' } 
+    //                      : { primary: '#0891B2', secondary: '#00D9FF', bg1: '#0A0A0A', bg2: '#000000' };
 
     const styles = {
       certificate: {
@@ -338,7 +905,7 @@ export default function Portfolio() {
       },
       publication: {
         accent: base.primary, secondary: base.secondary,
-        bgCard: `bg-gradient-to-r from-[${base.bg1}]/20 via-[${isGreen ? '#001a0a' : '#001a00'}]/40 to-[${base.bg2}]/20`,
+        bgCard: `bg-gradient-to-r from-[${base.bg1}]/20 via-[${isGreen ? '#0A0A0A' : '#000000'}]/40 to-[${base.bg2}]/20`,
         border: `border-l-[${base.primary}] border-t-[${base.primary}]/30 border-r-[${base.primary}]/30 border-b-[${base.primary}]/30`,
         iconBg: `bg-[${base.primary}]/15`, iconColor: `text-[${base.primary}]`,
         titleColor: `text-[${base.primary}]`, statusBg: `bg-[${base.primary}]/10`,
@@ -389,10 +956,10 @@ export default function Portfolio() {
   const NAV_OFFSET = 76;
   const [showScrollTop, setShowScrollTop] = useState(false);
   const SkillChip = memo(({ skill }) => (
-    <motion.div className="flex items-center gap-2 px-4 md:px-5 lg:px-6 py-2 md:py-2.5 lg:py-3 rounded-xl border border-[#00FF00]/20 shadow text-center cursor-pointer flex-shrink-0 bg-gradient-to-r from-[#001400] to-[#003320] text-gray-100 will-change-transform"
-      whileHover={{ scale: 1.08, backgroundColor: '#00FF00', borderColor: '#00FF00', color: '#ffffff', boxShadow: '0 0 16px rgba(0,255,0,0.35), 0 0 12px rgba(0,128,255,0.25)' }}
+    <motion.div className="flex items-center gap-2 px-4 md:px-5 lg:px-6 py-2 md:py-2.5 lg:py-3 rounded-xl border border-[#00D9FF]/20 shadow text-center cursor-pointer flex-shrink-0 bg-gradient-to-r from-[#1E3A8A] to-[#0A0A0A] text-gray-100 will-change-transform"
+      whileHover={{ scale: 1.08, backgroundColor: '#00D9FF', borderColor: '#00D9FF', color: '#ffffff', boxShadow: '0 0 16px rgba(0,217,255,0.35), 0 0 12px rgba(8,145,178,0.25)' }}
       transition={{ duration: 0.2, ease: 'easeOut' }}>
-      <span className="text-lg md:text-xl lg:text-xl flex-shrink-0 w-5 md:w-6 lg:w-6 h-5 md:h-6 lg:h-6 flex items-center justify-center text-[#00FF00]">{getIcon(skill.iconName)}</span>
+      <span className="text-lg md:text-xl lg:text-xl flex-shrink-0 w-5 md:w-6 lg:w-6 h-5 md:h-6 lg:h-6 flex items-center justify-center text-[#00D9FF]">{getIcon(skill.iconName)}</span>
       <span className="font-semibold text-sm md:text-base lg:text-base flex-shrink-0 whitespace-nowrap">{skill.name}</span>
     </motion.div>
   ));
@@ -401,6 +968,12 @@ export default function Portfolio() {
   const marqueeRef = useRef(null);
   const [resumeOpen, setResumeOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const [projectButtonPos, setProjectButtonPos] = useState(null);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [certificateDialogOpen, setCertificateDialogOpen] = useState(false);
+  const [certButtonPos, setCertButtonPos] = useState(null);
   const resumeMenuRef = useRef(null);
   const mobileMenuRef = useRef(null);
   useEffect(() => {
@@ -473,20 +1046,20 @@ export default function Portfolio() {
   };
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   return (
-  <div
-    className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#001a00] via-[#003320] to-[#001a00] text-gray-100 select-none"
-    style={{ touchAction: 'pan-y', overscrollBehaviorX: 'none', overscrollBehaviorY: 'none' }}
-  >
+    <div
+      className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#0A0A0A] to-[#000000] text-gray-100 select-none"
+      style={{ touchAction: 'pan-y', overscrollBehaviorX: 'none', overscrollBehaviorY: 'none' }}
+    >
       {/* Full Screen Background Animation */}
       <FullScreenBackground />
       
       {/* Top Navbar */}
-  <nav className="fixed top-0 left-0 right-0 z-30 bg-gradient-to-r from-[#001a00]/80 via-[#003320]/80 to-[#001a00]/80 backdrop-blur-md border-b border-white/10">
+  <nav className="fixed top-0 left-0 right-0 z-30 bg-gradient-to-r from-[#000000]/80 via-[#0A0A0A]/80 to-[#000000]/80 backdrop-blur-md border-b border-white/10">
         <div className="w-full px-4 md:px-6 lg:px-4 h-16 flex items-center justify-between" >
-          <button onClick={() => scrollToSection('home')} className="flex items-center gap-3 text-[#00FF00] font-semibold hover:text-[#00BFFF] transition group">
+          <button onClick={() => scrollToSection('home')} className="flex items-center gap-3 text-[#00D9FF] font-semibold hover:text-[#0891B2] transition group">
             <svg width="40" height="40" viewBox="0 0 40 40" className="flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
-              <defs><linearGradient id="simpleGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#00FF00" /><stop offset="100%" stopColor="#00BFFF" /></linearGradient></defs>
-              <rect x="4" y="4" width="32" height="32" rx="8" ry="8" fill="rgba(0,255,0,0.1)" stroke="url(#simpleGradient)" strokeWidth="2" />
+              <defs><linearGradient id="simpleGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#00D9FF" /><stop offset="100%" stopColor="#0891B2" /></linearGradient></defs>
+              <rect x="4" y="4" width="32" height="32" rx="8" ry="8" fill="rgba(0,217,255,0.1)" stroke="url(#simpleGradient)" strokeWidth="2" />
               <text x="16" y="26" fontFamily="'Georgia', serif" fontSize="18" fontWeight="600" fill="url(#simpleGradient)" textAnchor="middle">T</text>
               <text x="24" y="26" fontFamily="'Georgia', serif" fontSize="18" fontWeight="600" fill="url(#simpleGradient)" textAnchor="middle">D</text>
               <line x1="12" y1="30" x2="28" y2="30" stroke="url(#simpleGradient)" strokeWidth="1" opacity="0.6" />
@@ -494,14 +1067,14 @@ export default function Portfolio() {
           </button>
           <div className="hidden md:flex items-center gap-4 lg:gap-6 text-gray-200">
             {navLinks.map(l => (
-              <a key={l.id} href={`#${l.id}`} onClick={(e)=>{e.preventDefault(); scrollToSection(l.id)}} className="hover:text-[#00BFFF] text-sm lg:text-base">{l.label}</a>
+              <a key={l.id} href={`#${l.id}`} onClick={(e)=>{e.preventDefault(); scrollToSection(l.id)}} className="hover:text-[#0891B2] text-sm lg:text-base">{l.label}</a>
             ))}
             <div className="relative" ref={resumeMenuRef}>
               <button
                 onClick={()=>setResumeOpen(v=>!v)}
                 aria-haspopup="menu"
                 aria-expanded={resumeOpen}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded bg-gradient-to-r from-[#00FF00] to-[#00CC00] hover:from-[#00CC00] hover:to-[#00FF00] text-black border border-white/10 transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1 rounded bg-gradient-to-r from-[#00D9FF] to-[#00CC00] hover:from-[#00CC00] hover:to-[#00D9FF] text-black border border-white/10 transition-colors"
               >
                 Resume <span className={`transition-transform ${resumeOpen ? 'rotate-180' : ''}`}><ChevronDown size={16} /></span>
               </button>
@@ -510,11 +1083,11 @@ export default function Portfolio() {
                   initial={{ opacity: 0, y: -6, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ duration: 0.15, ease: 'easeOut' }}
-                  className="absolute right-0 mt-2 w-44 origin-top-right rounded-md border border-white/10 bg-[#00161f]/95 backdrop-blur-md shadow-lg z-50"
+                  className="absolute right-0 mt-2 w-44 origin-top-right rounded-md border border-white/10 bg-[#000000]/95 backdrop-blur-md shadow-lg z-50"
                 >
-                  <a href={resumePreviewUrl} onClick={()=>setResumeOpen(false)} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 px-3 py-2 text-gray-200 hover:bg-[#00BFFF]/20"><ExternalLink size={16} className="text-[#00FF00] group-hover:text-[#00BFFF]"/> Preview</a>
+                  <a href={resumePreviewUrl} onClick={()=>setResumeOpen(false)} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 px-3 py-2 text-gray-200 hover:bg-[#0891B2]/20"><ExternalLink size={16} className="text-[#00D9FF] group-hover:text-[#0891B2]"/> Preview</a>
                   <hr className="my-0.5 mx-auto w-[90%] border-t border-white/10" />
-                  <a href={resumeDownloadUrl} onClick={()=>setResumeOpen(false)} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 px-3 py-2 text-gray-200 hover:bg-[#00BFFF]/20"><Download size={16} className="text-[#00FF00] group-hover:text-[#00BFFF]"/> Download</a>
+                  <a href={resumeDownloadUrl} onClick={()=>setResumeOpen(false)} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 px-3 py-2 text-gray-200 hover:bg-[#0891B2]/20"><Download size={16} className="text-[#00D9FF] group-hover:text-[#0891B2]"/> Download</a>
                 </motion.div>
               )}
             </div>
@@ -523,7 +1096,7 @@ export default function Portfolio() {
           {/* Mobile Menu Button */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-[#00FF00] hover:text-[#00BFFF] transition-colors p-2"
+            className="md:hidden text-[#00D9FF] hover:text-[#0891B2] transition-colors p-2"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <ChevronUp size={28} /> : <ChevronDown size={28} />}
@@ -538,7 +1111,7 @@ export default function Portfolio() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-white/10 bg-[#001a00]/95 backdrop-blur-md"
+            className="md:hidden border-t border-white/10 bg-[#000000]/95 backdrop-blur-md"
           >
             <div className="px-4 py-3 space-y-2">
               {navLinks.map(l => (
@@ -550,7 +1123,7 @@ export default function Portfolio() {
                     scrollToSection(l.id);
                     setMobileMenuOpen(false);
                   }}
-                  className="block py-2 px-3 text-gray-200 hover:text-[#00BFFF] hover:bg-[#00BFFF]/15 rounded transition-colors"
+                  className="block py-2 px-3 text-gray-200 hover:text-[#0891B2] hover:bg-[#0891B2]/15 rounded transition-colors"
                 >
                   {l.label}
                 </a>
@@ -561,7 +1134,7 @@ export default function Portfolio() {
                   target="_blank" 
                   rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 py-2 px-3 text-gray-200 hover:text-[#00FF00] hover:bg-[#00FF00]/10 rounded transition-colors"
+                  className="flex items-center gap-2 py-2 px-3 text-gray-200 hover:text-[#00D9FF] hover:bg-[#00D9FF]/10 rounded transition-colors"
                 >
                   <ExternalLink size={16} /> Preview Resume
                 </a>
@@ -570,7 +1143,7 @@ export default function Portfolio() {
                   target="_blank" 
                   rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 py-2 px-3 text-gray-200 hover:text-[#00FF00] hover:bg-[#00FF00]/10 rounded transition-colors"
+                  className="flex items-center gap-2 py-2 px-3 text-gray-200 hover:text-[#00D9FF] hover:bg-[#00D9FF]/10 rounded transition-colors"
                 >
                   <Download size={16} /> Download Resume
                 </a>
@@ -582,7 +1155,7 @@ export default function Portfolio() {
     {/* Background layers */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         {/* Soft spotlight */}
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[120vmax] h-[120vmax] bg-[radial-gradient(closest-side,rgba(0,255,0,0.12),rgba(0,128,255,0.10)_45%,transparent_70%)]" />
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[120vmax] h-[120vmax] bg-[radial-gradient(closest-side,rgba(0,217,255,0.12),rgba(8,145,178,0.10)_45%,transparent_70%)]" />
 
         {/* Subtle grid with radial fade */}
         <div
@@ -613,24 +1186,24 @@ export default function Portfolio() {
         />
       </div>
     {/* Header */}
-  <header id="home" className="relative pt-4 pb-4 md:pt-6 md:pb-6 lg:pt-8 lg:pb-8 px-4 md:px-8 lg:px-12 mt-16 text-center w-full bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] text-white shadow-xl overflow-hidden">
+  <header id="home" className="relative pt-4 pb-4 md:pt-6 md:pb-6 lg:pt-8 lg:pb-8 px-4 md:px-8 lg:px-12 mt-16 text-center w-full bg-gradient-to-r from-[#000000] via-[#0A0A0A] to-[#000000] text-white shadow-xl overflow-hidden">
         {/* Animated Background Component */}
         <AnimatedBackground />
         
         {/* Additional Animated Background Effects */}
         <div className="hidden lg:block absolute inset-0 pointer-events-none opacity-25">
-          <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[80px]" />
-          <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[80px]" />
+          <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[80px]" />
+          <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#0891B2]/15 rounded-full blur-[80px]" />
         </div>
         
         <div className="flex flex-col items-center gap-2 relative z-10">
-          <motion.h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight" whileHover={{ scale: 1.1 , transition:{duration:0.3} }}>Dhamodharan T</motion.h1>
+          <h1 className="name-gradient-effect">Dhamodharan T</h1>
         </div>
-  <motion.p style={{ color: "#00FF00" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Mobile Application Developer | AI & ML Engineer | UI/UX Designer</motion.p>
+  <motion.p style={{ color: "#00D9FF" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Mobile Application Developer | AI & ML Engineer | UI/UX Designer</motion.p>
         
         {/* Expandable Social Links Menu */}
         <div className="mt-6 relative z-10 flex justify-center">
-          <div className="px-2 py-1 bg-[rgba(0,255,0,0.05)] rounded-lg border border-[rgba(0,255,0,0.15)] flex gap-1">
+          <div className="px-2 py-1 bg-[rgba(0,217,255,0.05)] rounded-lg border border-[rgba(0,217,255,0.15)] flex gap-1">
             {socialLinks.map((link) => (
               <a
                 key={link.label}
@@ -638,7 +1211,7 @@ export default function Portfolio() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={link.label}
-                className="group relative w-12 h-12 sm:w-14 sm:h-12 md:w-14 md:h-12 lg:w-14 lg:h-12 rounded-lg hover:w-28 sm:hover:w-32 md:hover:w-32 lg:hover:w-32 transition-all duration-250 ease-out flex items-center justify-center text-[#00FF00] hover:bg-[rgba(0,255,0,0.15)]"
+                className="group relative w-12 h-12 sm:w-14 sm:h-12 md:w-14 md:h-12 lg:w-14 lg:h-12 rounded-lg hover:w-28 sm:hover:w-32 md:hover:w-32 lg:hover:w-32 transition-all duration-250 ease-out flex items-center justify-center text-[#00D9FF] hover:bg-[rgba(0,217,255,0.15)]"
               >
                 <span className="flex-shrink-0 left-3 sm:left-4 absolute">
                   {getIcon(link.iconName, { size: 18 })}
@@ -659,36 +1232,38 @@ export default function Portfolio() {
         
         {/* Additional Animated Background Effects */}
         <div className="hidden lg:block absolute inset-0 pointer-events-none opacity-20">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[80px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[80px]" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[80px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#0891B2]/15 rounded-full blur-[80px]" />
         </div>
         
-        <div className="grid items-center gap-6 md:gap-8 lg:gap-10 md:grid-cols-2 relative z-10">
-          {/* Large profile image */}
+        <div className="grid items-center gap-6 md:gap-8 lg:gap-10 md:grid-cols-2 relative z-10 about-grid">
+          {/* Large profile image with 3D hover effect */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="relative mx-auto w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[420px] lg:h-[420px]"
+            className="relative mx-auto w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[420px] lg:h-[420px] card-3d-wrapper"
           >
-            <div
-              className="absolute inset-0 rounded-2xl p-[1.5px] shadow-2xl"
-              style={{
-                background:
-                  'linear-gradient(135deg, rgba(0,255,0,0.8), rgba(0,191,255,0.7), rgba(0,255,0,0.8))',
-              }}
-            >
-      <div className="h-full w-full rounded-2xl overflow-hidden bg-black/40 backdrop-blur-sm">
+            <div className="card-3d">
+              <div
+                className="absolute inset-0 rounded-2xl p-[1.5px] shadow-2xl"
+                style={{
+                  background:
+                    'linear-gradient(135deg, rgba(0,217,255,0.8), rgba(8,145,178,0.7), rgba(0,217,255,0.8))',
+                }}
+              >
+                <div className="h-full w-full rounded-2xl overflow-hidden bg-black/40 backdrop-blur-sm">
                   <img
                     src="/DhamodharanPic.jpg"
                     alt="Dhamodharan profile"
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover image-3d"
                     draggable={false}
                     decoding="async"
                     style={{ willChange: 'transform, opacity', transform: 'translateZ(0)' }}
                     onError={(e) => (e.currentTarget.src = '/profile-placeholder.svg')}
                   />
+                </div>
               </div>
             </div>
           </motion.div>
@@ -700,7 +1275,7 @@ export default function Portfolio() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
           >
-            <h2 className="text-2xl md:text-2xl lg:text-3xl font-semibold mb-4 text-[#00FF00]">About Me</h2>
+            <h2 className="text-2xl md:text-2xl lg:text-3xl font-semibold mb-4 text-[#00D9FF]">About Me</h2>
             <p className="text-gray-300 text-sm md:text-base lg:text-base leading-relaxed">
               Passionate developer with experience in Mobile App Development, Machine Learning, IoT, and UI/UX Design.
               I enjoy building interactive, real-time applications and polished user experiences.
@@ -717,11 +1292,11 @@ export default function Portfolio() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-2xl bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] rounded-lg p-8 border border-[#00FF00]/20 shadow-lg"
+          className="w-full max-w-2xl bg-gradient-to-r from-[#000000] via-[#0A0A0A] to-[#000000] rounded-lg p-8 border border-[#00D9FF]/20 shadow-lg"
         >
-          <h3 className="text-center text-xl md:text-2xl font-semibold mb-6 text-[#00FF00]">Connect With Me</h3>
+          <h3 className="text-center text-xl md:text-2xl font-semibold mb-6 text-[#00D9FF]">Connect With Me</h3>
           <div className="flex justify-center">
-            <div className="px-2 py-1 bg-[rgba(0,255,0,0.05)] rounded-lg border border-[rgba(0,255,0,0.15)] flex gap-1">
+            <div className="px-2 py-1 bg-[rgba(0,217,255,0.05)] rounded-lg border border-[rgba(0,217,255,0.15)] flex gap-1">
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
@@ -729,7 +1304,7 @@ export default function Portfolio() {
                   target="_blank"
                   rel="noopener noreferrer"
                   title={link.label}
-                  className="group relative w-12 h-12 sm:w-14 sm:h-12 md:w-14 md:h-12 lg:w-14 lg:h-12 rounded-lg hover:w-28 sm:hover:w-32 md:hover:w-32 lg:hover:w-32 transition-all duration-250 ease-out flex items-center justify-center text-[#00FF00] hover:bg-[rgba(0,255,0,0.15)]"
+                  className="group relative w-12 h-12 sm:w-14 sm:h-12 md:w-14 md:h-12 lg:w-14 lg:h-12 rounded-lg hover:w-28 sm:hover:w-32 md:hover:w-32 lg:hover:w-32 transition-all duration-250 ease-out flex items-center justify-center text-[#00D9FF] hover:bg-[rgba(0,217,255,0.15)]"
                 >
                   <span className="flex-shrink-0 left-3 sm:left-4 absolute">
                     {getIcon(link.iconName, { size: 18 })}
@@ -746,263 +1321,201 @@ export default function Portfolio() {
     </div> */}
 
     {/* Skills */}
-  <div id="skills" className="relative px-0 py-8 md:py-10 lg:py-12 w-full bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] overflow-hidden">
+  <div id="skills" className="relative px-4 md:px-8 lg:px-12 py-12 md:py-14 lg:py-16 w-full bg-gradient-to-r from-[#000000] via-[#0A0A0A] to-[#000000] overflow-hidden min-h-[600px] md:min-h-[700px] flex flex-col justify-center">
     {/* Animated Background Component */}
     <AnimatedBackground />
     
     {/* Additional Animated Background Effects */}
-    <div className="hidden md:block absolute inset-0 pointer-events-none opacity-30">
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+    <div className="hidden md:block absolute inset-0 pointer-events-none opacity-15">
+      <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[120px]" />
+      <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-[#0891B2]/12 rounded-full blur-[120px]" />
     </div>
 
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="text-center mb-12 md:mb-16 relative"
+      className="text-center mb-8 md:mb-10 relative z-10"
     >
-      <h2 className="text-2xl md:text-3xl lg:text-3xl font-extrabold mb-3 bg-gradient-to-r from-[#00FF00] via-[#00BFFF] to-[#00FF00] bg-clip-text text-transparent flex items-center justify-center gap-3 animate-gradient-x">
-        <span className="inline-block animate-bounce"><svg width='32' height='32' viewBox='0 0 24 24' fill='none'><path d='M12 2L15 8H9L12 2Z' fill='#00FF00'/><path d='M12 22L9 16H15L12 22Z' fill='#00BFFF'/><circle cx='12' cy='12' r='4' fill='url(#techGradient)'/><defs><linearGradient id='techGradient' x1='8' y1='8' x2='16' y2='16' gradientUnits='userSpaceOnUse'><stop stopColor='#00FF00'/><stop offset='1' stopColor='#00BFFF'/></linearGradient></defs></svg></span>
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">
         Tech Stack
       </h2>
+      <p className="text-gray-400 text-sm md:text-base">Technologies I specialize in</p>
     </motion.div>
 
-    {/* Domain-based Skills Layout with Network Animation */}
-    <div className="w-full space-y-12 md:space-y-16 px-4 md:px-8 lg:px-12">
-      {skillsByDomain.map((domain, domainIndex) => {
-        const DomainIcon = { Code, Database, Smartphone, Brain }[domain.icon] || Code;
-        const skillCount = domain.skills.length;
-        
-        return (
+    {/* Skills Organized by Domain - 1,2,3 Column Layout */}
+    <div className="w-full relative z-10 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+        {skillsByDomain.map((domain, domainIndex) => (
           <motion.div
             key={domainIndex}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.6, delay: domainIndex * 0.15 }}
-            className="relative"
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: domainIndex * 0.08 }}
+            className="space-y-4 p-5 lg:p-6 rounded-xl border border-[#00D9FF]/20 bg-gradient-to-br from-[#0A0A0A]/40 to-[#000000]/40 backdrop-blur-sm hover:border-[#00D9FF]/40 transition-all duration-300"
           >
             {/* Domain Header */}
-            <div className="flex items-center gap-3 mb-6 md:mb-8">
-              <motion.div
-                whileHover={{ scale: 1.1, rotate: 360 }}
-                transition={{ duration: 0.5 }}
-                className="p-2 md:p-3 rounded-lg bg-gradient-to-br from-[#00FF00]/20 to-[#00BFFF]/20 border border-[#00FF00]/30"
-              >
-                <DomainIcon className="w-5 h-5 md:w-6 md:h-6 text-[#00FF00]" />
-              </motion.div>
-              <h3 className="text-xl md:text-2xl font-bold text-transparent bg-gradient-to-r from-[#00FF00] to-[#00BFFF] bg-clip-text">
+            <div className="flex items-center gap-3 pb-4 border-b border-[#00D9FF]/20">
+              <div className="text-2xl lg:text-3xl text-[#00D9FF] flex-shrink-0">
+                {getIcon(domain.icon)}
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-[#00D9FF] line-clamp-2">
                 {domain.domain}
               </h3>
-              <div className="flex-1 h-px bg-gradient-to-r from-[#00FF00]/30 via-[#00BFFF]/30 to-transparent ml-4"></div>
             </div>
 
-            {/* Skills Grid Container for this Domain */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 lg:gap-10 relative justify-items-center">
-
-                {domain.skills.map((skill, skillIndex) => {
-                  const delay = window.innerWidth < 768 ? skillIndex * 0.02 : skillIndex * 0.08;
-                  return (
-                    <motion.div
-                      key={skillIndex}
-                      initial={{ opacity: 0, scale: 0.5, rotateY: 90 }}
-                      whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                      viewport={{ once: true, margin: '-80px' }}
-                      transition={{ 
-                        duration: 0.6, 
-                        delay, 
-                        type: "spring", 
-                        stiffness: 100 
-                      }}
-                      whileHover={{ 
-                        scale: 1.15, 
-                        y: -12,
-                        rotateZ: 5,
-                        boxShadow: `0 12px 50px ${skill.brightColor || skill.color}90`,
-                        transition: { duration: 0.2 } 
-                      }}
-                      className="relative group mx-auto w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#0f172a] border-[3px] shadow-2xl flex flex-col items-center justify-center overflow-visible cursor-pointer"
-                      style={{ 
-                        borderColor: `${skill.brightColor || skill.color}40`,
-                        willChange: 'transform',
-                        perspective: '1000px'
-                      }}
-                    >
-                      {/* Pulsing Outer Ring */}
-                      <motion.div 
-                        className="absolute -inset-2 rounded-full pointer-events-none z-0 opacity-0 group-hover:opacity-100"
-                        style={{
-                          background: `radial-gradient(circle, ${skill.brightColor || skill.color}60 0%, transparent 70%)`,
-                          filter: 'blur(16px)'
-                        }}
-                        animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.8, 0.4] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      />
-
-                      {/* Rotating Ring Animation */}
-                      <motion.div
-                        className="absolute inset-0 rounded-full border-2 border-dashed opacity-30 group-hover:opacity-70"
-                        style={{ borderColor: skill.brightColor || skill.color }}
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                      />
-
-                      {/* Orbiting Particles */}
-                      <motion.div
-                        className="absolute w-2 h-2 rounded-full"
-                        style={{ 
-                          backgroundColor: skill.brightColor || skill.color,
-                          boxShadow: `0 0 10px ${skill.brightColor || skill.color}`
-                        }}
-                        animate={{
-                          x: [0, 40, 0, -40, 0],
-                          y: [0, -40, 0, 40, 0],
-                        }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: skillIndex * 0.2 }}
-                      />
-
-                      {/* Floating Icon with 3D effect */}
-                      <motion.div
-                        className="text-3xl md:text-4xl lg:text-5xl mb-1 relative z-10"
-                        style={{ color: skill.brightColor || skill.color }}
-                        whileHover={{ 
-                          y: -8, 
-                          scale: 1.25, 
-                          rotateY: 180
-                        }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-                      >
-                        {getIcon(skill.iconName)}
-                      </motion.div>
-
-                      {/* Skill Name - Always Visible */}
-                      <motion.span
-                        className="text-[9px] md:text-[10px] font-extrabold text-center leading-tight relative z-10 tracking-wider px-2"
-                        style={{
-                          color: skill.brightColor || skill.color,
-                          textShadow: `0 0 8px ${skill.brightColor || skill.color}60, 0 0 12px ${skill.brightColor || skill.color}30`,
-                          WebkitTextStroke: '0.2px rgba(255,255,255,0.15)'
-                        }}
-                        animate={{ opacity: [0.8, 1, 0.8] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      >
-                        {skill.name}
-                      </motion.span>
-
-                      {/* Enhanced Tooltip on Hover */}
-                      <motion.div
-                        className="absolute -bottom-12 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-xs font-black whitespace-nowrap backdrop-blur-md opacity-0 group-hover:opacity-100 z-20 pointer-events-none"
-                        style={{
-                          backgroundColor: `${skill.brightColor || skill.color}25`,
-                          border: `2px solid ${skill.brightColor || skill.color}`,
-                          color: skill.brightColor || skill.color,
-                          boxShadow: `0 0 25px ${skill.brightColor || skill.color}70, inset 0 0 15px ${skill.brightColor || skill.color}30`,
-                          textShadow: `0 0 10px ${skill.brightColor || skill.color}`
-                        }}
-                        initial={{ y: 10, opacity: 0 }}
-                        whileHover={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {skill.name}
-                      </motion.div>
-
-                      {/* Energy Pulse Effect */}
-                      <motion.div
-                        className="absolute inset-0 rounded-full pointer-events-none"
-                        style={{
-                          border: `1px solid ${skill.brightColor || skill.color}`,
-                          opacity: 0.3
-                        }}
-                        animate={{ scale: [1, 1.4], opacity: [0.6, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: skillIndex * 0.15 }}
-                      />
-                    </motion.div>
-                  );
-                })}
-            </div>
+            {/* Domain Skills Grid */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: domainIndex * 0.08 + 0.15 }}
+              className="grid grid-cols-3 sm:grid-cols-4 gap-2 lg:gap-3"
+            >
+              {domain.skills.map((skill, skillIndex) => (
+                <motion.div
+                  key={skillIndex}
+                  initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ 
+                    duration: 0.3, 
+                    delay: skillIndex * 0.04,
+                    type: "spring",
+                    stiffness: 200
+                  }}
+                  whileHover={{ 
+                    scale: 1.1,
+                    y: -4,
+                    transition: { duration: 0.2 } 
+                  }}
+                  className="flex flex-col items-center gap-1.5 p-2 rounded-lg border border-[#00D9FF]/20 bg-gradient-to-br from-[#0A0A0A]/60 to-[#000000]/60 hover:border-[#00D9FF]/50 hover:bg-gradient-to-br hover:from-[#0A0A0A]/80 hover:to-[#00D9FF]/25 transition-all duration-200 cursor-default"
+                  title={skill.name}
+                >
+                  <motion.div
+                    animate={{ opacity: [0.6, 1, 0.6] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    className="text-xl lg:text-2xl"
+                    style={{ color: skill.color }}
+                  >
+                    {getIcon(skill.iconName)}
+                  </motion.div>
+                  <span className="text-[8px] lg:text-[9px] font-semibold text-center text-gray-300 leading-tight line-clamp-2">
+                    {skill.name}
+                  </span>
+                </motion.div>
+              ))}
+            </motion.div>
           </motion.div>
-        );
-      })}
+        ))}
+      </div>
     </div>
   </div>
 
     {/* Academics */}
-    <div id="academics" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
-      {/* Background Effects - No AnimatedBackground here for contrast */}
-      <div className="hidden md:block absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-0 right-1/3 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.5s' }} />
+    <div id="academics" className="relative px-4 md:px-8 lg:px-12 py-12 md:py-14 lg:py-16 w-full overflow-hidden bg-gradient-to-r from-[#000000] via-[#0A0A0A] to-[#000000]">
+      {/* Animated Background Effects */}
+      <AnimatedBackground />
+      
+      <div className="hidden md:block absolute inset-0 pointer-events-none opacity-15">
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#0891B2]/12 rounded-full blur-[120px]" />
       </div>
       
-      <motion.h2 
-        initial={{ opacity: 0, y: 24 }}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="text-xl md:text-2xl lg:text-2xl font-semibold text-center mb-6 md:mb-8 text-[#00FF00] hover:underline decoration-[#00FF00] relative z-10"
+        viewport={{ once: true }}
+        className="text-center mb-8 md:mb-10 relative z-10"
       >
-        Academic Journey
-      </motion.h2>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">
+          Academic Journey
+        </h2>
+        <p className="text-gray-400 text-sm md:text-base">Education & Achievements</p>
+      </motion.div>
 
-      <div className="space-y-4 md:space-y-6 relative z-10">
-        {/* Current Education */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="flex items-start gap-3 md:gap-4 p-4 md:p-5 lg:p-6 rounded-xl bg-gradient-to-r from-[#001400]/60 to-[#003320]/60 border border-[#00FF00]/20"
-        >
-          <div className="flex-shrink-0 w-10 md:w-11 lg:w-12 h-10 md:h-11 lg:h-12 rounded-full bg-[#00FF00]/20 flex items-center justify-center">
-            <GraduationCap className="w-5 md:w-5 lg:w-6 h-5 md:h-5 lg:h-6 text-[#00FF00]" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-lg md:text-lg lg:text-xl font-semibold text-[#00FF00] mb-2">Bachelor of Engineering</h3>
-            <p className="text-base md:text-base lg:text-lg text-gray-200 mb-1">Computer Science and Engineering (Artificial Intelligence and Machine Learning)</p>
-            <p className="text-gray-300 mb-2 text-sm md:text-sm lg:text-base">KPR Institute of Engineering and Technology</p>
-            <p className="text-xs md:text-xs lg:text-sm text-gray-400">CGPA : 8.99</p>
-            <p className="text-xs md:text-xs lg:text-sm text-gray-400">2023 - Present • Expected 2027</p>
-          </div>
-        </motion.div>
+      <div className="relative z-10 max-w-6xl mx-auto">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {academics.map((edu, index) => {
+            const isCyan = edu.color === 'cyan';
+            const accentColor = isCyan ? '#00D9FF' : '#0891B2';
+            const borderColor = isCyan ? 'border-[#00D9FF]' : 'border-[#0891B2]';
+            const bgGradient = isCyan ? 'from-[#00D9FF]/10' : 'from-[#0891B2]/10';
+            const hoverBg = isCyan ? 'hover:from-[#00D9FF]/15' : 'hover:from-[#0891B2]/15';
+            const badgeBg = isCyan ? 'bg-[#00D9FF]/20' : 'bg-[#0891B2]/20';
+            const badgeText = isCyan ? 'text-[#00D9FF]' : 'text-[#0891B2]';
+            const titleColor = isCyan ? 'text-[#00D9FF]' : 'text-[#0891B2]';
+            const iconBg = isCyan ? 'bg-[#00D9FF]/15' : 'bg-[#0891B2]/15';
+            const iconColor = isCyan ? 'text-[#00D9FF]' : 'text-[#0891B2]';
 
-        {/* Higher Secondary */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
-          className="flex items-start gap-3 md:gap-4 p-4 md:p-5 lg:p-6 rounded-xl bg-gradient-to-r from-[#003320]/60 to-[#001400]/60 border border-[#00BFFF]/30"
-        >
-          <div className="flex-shrink-0 w-10 md:w-11 lg:w-12 h-10 md:h-11 lg:h-12 rounded-full bg-[#00BFFF]/25 flex items-center justify-center">
-            <BookOpen className="w-5 md:w-5 lg:w-6 h-5 md:h-5 lg:h-6 text-[#00BFFF]" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-lg md:text-lg lg:text-xl font-semibold text-[#00BFFF] mb-2">Higher Secondary Certificate</h3>
-            <p className="text-base md:text-base lg:text-lg text-gray-200 mb-1">Biology Stream (TN Stateboard)</p>
-            <p className="text-gray-300 mb-2 text-sm md:text-sm lg:text-base">Sri Vidya Mandir Senior Secondary School</p>
-            <p className="text-sm text-gray-400">2021 - 2023 • 91.7%</p>
-          </div>
-        </motion.div>
+            return (
+              <motion.div
+                key={edu.id}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.12 }}
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                className={`relative group overflow-hidden rounded-2xl border-2 ${borderColor}/40 bg-gradient-to-br ${bgGradient} to-[#000000]/40 backdrop-blur-sm hover:border-[${accentColor}]/60 ${hoverBg} hover:to-[#000000]/60 transition-all duration-300 p-6 md:p-7`}
+              >
+                {/* Background Glow Effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl`} style={{ background: `radial-gradient(circle, ${accentColor}20, transparent 70%)` }} />
+                </div>
 
-        {/* Secondary */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-          className="flex items-start gap-3 md:gap-4 p-4 md:p-5 lg:p-6 rounded-xl bg-gradient-to-r from-[#001400]/60 to-[#003320]/60 border border-[#00FF00]/20"
-        >
-          <div className="flex-shrink-0 w-10 md:w-11 lg:w-12 h-10 md:h-11 lg:h-12 rounded-full bg-[#00FF00]/20 flex items-center justify-center">
-            <Award className="w-5 md:w-5 lg:w-6 h-5 md:h-5 lg:h-6 text-[#00FF00]" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-lg md:text-lg lg:text-xl font-semibold text-[#00FF00] mb-2">Secondary School Certificate</h3>
-            <p className="text-base md:text-base lg:text-lg text-gray-200 mb-1">CBSE</p>
-            <p className="text-gray-300 mb-2 text-sm md:text-sm lg:text-base">Sri Vidya Mandir Senior Secondary School</p>
-            <p className="text-xs md:text-xs lg:text-sm text-gray-400">2020 - 2021 • 88.9%</p>
-          </div>
-        </motion.div>
+                {/* Top Accent Line */}
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r`} style={{ backgroundImage: `linear-gradient(to right, ${accentColor}40, transparent 50%, ${accentColor}20)` }} />
+
+                {/* Content */}
+                <div className="relative z-10 space-y-4">
+                  {/* Header with Icon */}
+                  <div className="flex items-start justify-between">
+                    <div className={`p-3 rounded-xl ${iconBg}`}>
+                      {getIcon(edu.icon, { size: 24, color: accentColor })}
+                    </div>
+                    <span className={`text-xs font-bold px-3 py-1 rounded-full ${badgeBg} ${badgeText} whitespace-nowrap`}>
+                      {edu.startYear} - {edu.endYear}
+                    </span>
+                  </div>
+
+                  {/* Degree Title */}
+                  <div>
+                    <h3 className={`text-lg md:text-xl font-bold ${titleColor} mb-2 line-clamp-2`}>
+                      {edu.degree}
+                    </h3>
+                    <p className="text-sm text-gray-300 font-medium">{edu.field}</p>
+                  </div>
+
+                  {/* Specialization */}
+                  {edu.specialization && (
+                    <div className={`p-3 rounded-lg bg-[${accentColor}]/5 border border-[${accentColor}]/20`}>
+                      <p className="text-xs text-gray-300 leading-relaxed">📚 {edu.specialization}</p>
+                    </div>
+                  )}
+
+                  {/* Institution */}
+                  <div className="pt-3 border-t border-white/10">
+                    <p className="text-xs text-gray-400 mb-2">Institution</p>
+                    <p className="text-sm text-gray-200 font-semibold line-clamp-2">{edu.institution}</p>
+                  </div>
+
+                  {/* Score Badge */}
+                  <div className={`mt-4 pt-4 border-t border-white/10 flex items-center justify-between`}>
+                    <span className="text-xs text-gray-400">Achievement</span>
+                    <div className={`px-4 py-2 rounded-lg ${badgeBg} ${badgeText} text-sm font-bold shadow-lg`}>
+                      {edu.cgpa ? `CGPA: ${edu.cgpa}` : `${edu.percentage}`}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Corner Accent */}
+                <div className={`absolute bottom-0 right-0 w-20 h-20 rounded-tl-3xl opacity-0 group-hover:opacity-40 transition-opacity duration-300`} style={{ background: `linear-gradient(135deg, ${accentColor}20, transparent)` }} />
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </div>
 
@@ -1010,20 +1523,26 @@ export default function Portfolio() {
     <div id="internships" className="relative px-4 md:px-8 lg:px-12 py-12 md:py-14 lg:py-16 w-full overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 pointer-events-none opacity-30">
-        <div className="absolute top-1/3 -left-48 w-96 h-96 bg-[#00BFFF]/20 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '0s' }} />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#00FF00]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-1/3 -left-48 w-96 h-96 bg-[#0891B2]/20 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '0s' }} />
+        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-[#00D9FF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.5s' }} />
       </div>
       
-      <motion.div {...createMotionDiv({initial: {y: 30, opacity: 0}, whileInView: {y: 0, opacity: 1}})} className="relative z-10 mb-6">
-        <h2 className="text-xl md:text-2xl lg:text-2xl font-black text-center text-[#00FF00] hover:underline decoration-[#00FF00] mb-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-8 md:mb-10 relative z-10"
+      >
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">
           Internship Experience
         </h2>
+        <p className="text-gray-400 text-sm md:text-base">Professional work experience & skills gained</p>
       </motion.div>
 
       {/* Timeline Layout */}
       <div className="relative max-w-4xl mx-auto">
         {/* Timeline Line */}
-        <div className="hidden md:block absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-[#00FF00] via-[#00BFFF] to-transparent" />
+        <div className="hidden md:block absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-[#00D9FF] via-[#0891B2] to-transparent" />
 
         <div className="space-y-8 md:space-y-12">
           {internships.map((intern, index) => {
@@ -1040,12 +1559,12 @@ export default function Portfolio() {
               >
                 {/* Timeline Dot */}
                 <motion.div
-                  className={`absolute left-5 top-8 hidden md:flex items-center justify-center w-7 h-7 rounded-full border-4 border-[#001a00] z-30 ${
+                  className={`absolute left-5 top-8 hidden md:flex items-center justify-center w-7 h-7 rounded-full border-4 border-[#000000] z-30 ${
                     isBlueBg 
-                      ? 'bg-gradient-to-br from-[#00BFFF] to-[#0088FF] shadow-lg shadow-[#00BFFF]/50' 
-                      : 'bg-gradient-to-br from-[#00FF00] to-[#00AA00] shadow-lg shadow-[#00FF00]/50'
+                      ? 'bg-gradient-to-br from-[#0891B2] to-[#0088FF] shadow-lg shadow-[#0891B2]/50' 
+                      : 'bg-gradient-to-br from-[#00D9FF] to-[#00AA00] shadow-lg shadow-[#00D9FF]/50'
                   }`}
-                  whileHover={{ scale: 1.03, boxShadow: isBlueBg ? '0 0 40px rgba(0,191,255,0.9)' : '0 0 40px rgba(0,255,0,0.9)' }}
+                  whileHover={{ scale: 1.03, boxShadow: isBlueBg ? '0 0 40px rgba(8,145,178,0.9)' : '0 0 40px rgba(0,217,255,0.9)' }}
                 />
 
                 {/* Content Card */}
@@ -1054,14 +1573,14 @@ export default function Portfolio() {
                   transition={{ type: "spring", stiffness: 300 }}
                   className={`w-full group relative p-6 rounded-xl backdrop-blur-xl border-2 transition-all duration-300 overflow-hidden ${
                     isBlueBg
-                      ? 'bg-gradient-to-br from-[#0051a3]/12 to-[#003366]/12 border-[#00BFFF]/40 shadow-lg shadow-[#00BFFF]/12 hover:shadow-2xl hover:shadow-[#00BFFF]/30' 
-                      : 'bg-gradient-to-br from-[#003300]/12 to-[#001a00]/12 border-[#00FF00]/40 shadow-lg shadow-[#00FF00]/12 hover:shadow-2xl hover:shadow-[#00FF00]/30'
+                      ? 'bg-gradient-to-br from-[#0051a3]/12 to-[#003366]/12 border-[#0891B2]/40 shadow-lg shadow-[#0891B2]/12 hover:shadow-2xl hover:shadow-[#0891B2]/30' 
+                      : 'bg-gradient-to-br from-[#003300]/12 to-[#000000]/12 border-[#00D9FF]/40 shadow-lg shadow-[#00D9FF]/12 hover:shadow-2xl hover:shadow-[#00D9FF]/30'
                   }`}
                 >
                   {/* Animated Background Glow */}
                   <motion.div
                     className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 ${
-                      isBlueBg ? 'bg-gradient-to-r from-[#00BFFF] to-[#0088FF]' : 'bg-gradient-to-r from-[#00FF00] to-[#00AA00]'
+                      isBlueBg ? 'bg-gradient-to-r from-[#0891B2] to-[#0088FF]' : 'bg-gradient-to-r from-[#00D9FF] to-[#00AA00]'
                     }`}
                   />
 
@@ -1072,14 +1591,14 @@ export default function Portfolio() {
                         whileHover={{ scale: 1.02, rotate: 10 }}
                         className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 border-2 ${
                           isBlueBg 
-                            ? 'bg-[#0051a3]/50 border-[#00BFFF]/60' 
-                            : 'bg-[#003300]/50 border-[#00FF00]/60'
+                            ? 'bg-[#0051a3]/50 border-[#0891B2]/60' 
+                            : 'bg-[#003300]/50 border-[#00D9FF]/60'
                         }`}
                       >
-                        <Briefcase className={`w-6 h-6 ${isBlueBg ? 'text-[#00BFFF]' : 'text-[#00FF00]'}`} />
+                        <Briefcase className={`w-6 h-6 ${isBlueBg ? 'text-[#0891B2]' : 'text-[#00D9FF]'}`} />
                       </motion.div>
                       <div className="flex-1">
-                        <h3 className={`text-lg font-bold mb-0.5 ${isBlueBg ? 'text-[#00BFFF]' : 'text-[#00FF00]'}`}>
+                        <h3 className={`text-lg font-bold mb-0.5 ${isBlueBg ? 'text-[#0891B2]' : 'text-[#00D9FF]'}`}>
                           {intern.role}
                         </h3>
                         <p className="text-gray-300 font-semibold text-sm">{intern.company}</p>
@@ -1091,8 +1610,8 @@ export default function Portfolio() {
                       whileHover={{ scale: 1.05 }}
                       className={`inline-flex items-center gap-1.5 mb-3 px-3 py-1.5 rounded-full text-xs font-bold border ${
                         isBlueBg 
-                          ? 'bg-[#0051a3]/40 text-[#00BFFF] border-[#00BFFF]/40' 
-                          : 'bg-[#003300]/40 text-[#00FF00] border-[#00FF00]/40'
+                          ? 'bg-[#0051a3]/40 text-[#0891B2] border-[#0891B2]/40' 
+                          : 'bg-[#003300]/40 text-[#00D9FF] border-[#00D9FF]/40'
                       }`}
                     >
                       <Clock size={14} />
@@ -1113,8 +1632,8 @@ export default function Portfolio() {
                             whileHover={{ scale: 1.02, y: -2 }}
                             className={`text-xs font-bold px-3 py-1 rounded-full transition-all duration-200 border ${
                               isBlueBg
-                                ? 'bg-[#0051a3]/50 text-[#00BFFF] border-[#00BFFF]/60 hover:shadow-lg hover:shadow-[#00BFFF]/40'
-                                : 'bg-[#003300]/50 text-[#00FF00] border-[#00FF00]/60 hover:shadow-lg hover:shadow-[#00FF00]/40'
+                                ? 'bg-[#0051a3]/50 text-[#0891B2] border-[#0891B2]/60 hover:shadow-lg hover:shadow-[#0891B2]/40'
+                                : 'bg-[#003300]/50 text-[#00D9FF] border-[#00D9FF]/60 hover:shadow-lg hover:shadow-[#00D9FF]/40'
                             }`}
                           >
                             {tech.trim()}
@@ -1126,7 +1645,7 @@ export default function Portfolio() {
 
                   {/* Corner Accent */}
                   <motion.div 
-                    className={`absolute top-0 right-0 w-24 h-24 ${isBlueBg ? 'bg-gradient-to-bl from-[#00BFFF]/10' : 'bg-gradient-to-bl from-[#00FF00]/10'} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                    className={`absolute top-0 right-0 w-24 h-24 ${isBlueBg ? 'bg-gradient-to-bl from-[#0891B2]/10' : 'bg-gradient-to-bl from-[#00D9FF]/10'} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
                     initial={{ rotate: 0 }}
                     whileHover={{ rotate: 10 }}
                   />
@@ -1145,16 +1664,23 @@ export default function Portfolio() {
       
       {/* Additional Animated Background Effects */}
       <div className="hidden md:block absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0891B2]/15 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
       
-      <motion.h2 {...createMotionDiv({initial: {y: 24}, whileInView: {y: 0}})}
-        className="text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6 md:mb-8 text-[#00FF00] relative z-10">
-        Certificates & Achievements
-      </motion.h2>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-8 md:mb-10 relative z-10"
+      >
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">
+          Certificates & Achievements
+        </h2>
+        <p className="text-gray-400 text-sm md:text-base">Professional certifications & recognitions</p>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-5 lg:gap-6 max-w-4xl mx-auto relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-7 max-w-7xl mx-auto relative z-10">
         {certificates.map((cert, index) => {
           const colorClasses = getColorClasses(cert.color === 'green', 'certificate');
           const isGreen = cert.color === 'green';
@@ -1167,37 +1693,48 @@ export default function Portfolio() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.03, y: -5 }}
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                setCertButtonPos({
+                  top: rect.top + window.scrollY,
+                  left: rect.left + window.scrollX,
+                  height: rect.height,
+                  width: rect.width,
+                });
+                setSelectedCertificate(cert);
+                setCertificateDialogOpen(true);
+              }}
               className="group cursor-pointer transform transition-all duration-500 relative overflow-hidden p-4 md:p-5 lg:p-6 rounded-2xl"
             >
               {/* Animated Background Effects */}
               <div className="absolute inset-0 z-0 overflow-hidden">
                 <div className={`absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500 ${
                   isGreen 
-                    ? 'bg-gradient-to-tr from-[#00FF00]/5 to-[#00FF00]/10' 
-                    : 'bg-gradient-to-tr from-[#00BFFF]/5 to-[#00BFFF]/10'
+                    ? 'bg-gradient-to-tr from-[#00D9FF]/5 to-[#00D9FF]/10' 
+                    : 'bg-gradient-to-tr from-[#0891B2]/5 to-[#0891B2]/10'
                 }`}></div>
                 
                 <div className={`absolute -bottom-20 -left-20 w-48 h-48 rounded-full blur-3xl opacity-30 group-hover:opacity-50 transform group-hover:scale-110 transition-all duration-700 animate-bounce ${
-                  isGreen ? 'bg-gradient-to-tr from-[#00FF00]/10 to-transparent' : 'bg-gradient-to-tr from-[#00BFFF]/10 to-transparent'
+                  isGreen ? 'bg-gradient-to-tr from-[#00D9FF]/10 to-transparent' : 'bg-gradient-to-tr from-[#0891B2]/10 to-transparent'
                 }`} style={{ animationDelay: '0.5s' }}></div>
                 
                 <div className={`absolute top-10 left-10 w-16 h-16 rounded-full blur-xl animate-ping ${
-                  isGreen ? 'bg-[#00FF00]/5' : 'bg-[#00BFFF]/5'
+                  isGreen ? 'bg-[#00D9FF]/5' : 'bg-[#0891B2]/5'
                 }`}></div>
                 
                 <div className={`absolute bottom-16 right-16 w-12 h-12 rounded-full blur-lg animate-ping ${
-                  isGreen ? 'bg-[#00FF00]/5' : 'bg-[#00BFFF]/5'
+                  isGreen ? 'bg-[#00D9FF]/5' : 'bg-[#0891B2]/5'
                 }`} style={{ animationDelay: '1s' }}></div>
                 
                 <div className={`absolute inset-0 transform -skew-x-12 translate-x-full group-hover:translate-x-[-200%] transition-transform duration-1000 ${
                   isGreen 
-                    ? 'bg-gradient-to-r from-transparent via-[#00FF00]/5 to-transparent' 
-                    : 'bg-gradient-to-r from-transparent via-[#00BFFF]/5 to-transparent'
+                    ? 'bg-gradient-to-r from-transparent via-[#00D9FF]/5 to-transparent' 
+                    : 'bg-gradient-to-r from-transparent via-[#0891B2]/5 to-transparent'
                 }`}></div>
               </div>
 
-              <div className={`absolute top-0 right-0 w-16 h-16 ${isGreen ? 'bg-[#00FF00]/10' : 'bg-[#00BFFF]/15'} rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
-              <div className={`absolute bottom-0 left-0 w-16 h-16 ${isGreen ? 'bg-[#00FF00]/10' : 'bg-[#00BFFF]/15'} rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+              <div className={`absolute top-0 right-0 w-16 h-16 ${isGreen ? 'bg-[#00D9FF]/10' : 'bg-[#0891B2]/15'} rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+              <div className={`absolute bottom-0 left-0 w-16 h-16 ${isGreen ? 'bg-[#00D9FF]/10' : 'bg-[#0891B2]/15'} rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
 
               <div className={`relative z-10 ${colorClasses.bg} ${colorClasses.border} ${colorClasses.shadow} hover:shadow-xl transition-all duration-300`}>
                 <div className={`w-12 md:w-13 lg:w-14 h-12 md:h-13 lg:h-14 rounded-2xl ${colorClasses.iconBg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
@@ -1206,27 +1743,35 @@ export default function Portfolio() {
 
                 <h3 className={`text-lg font-bold ${colorClasses.titleColor} mb-2 line-clamp-2`}>{cert.title}</h3>
                 <p className="text-gray-300 font-semibold text-sm mb-2">{cert.issuer}</p>
-                <p className="text-gray-400 text-xs mb-3 line-clamp-2">{cert.description}</p>
+                <p className="text-gray-400 text-xs mb-4 line-clamp-2">{cert.description}</p>
 
-                <div className="flex items-center justify-between">
-                  <span className={`text-xs font-bold ${colorClasses.dateColor} px-3 py-1 rounded-full ${isGreen ? 'bg-[#00FF00]/10' : 'bg-[#00BFFF]/15'}`}>
+                {/* Mini Certificate Window Preview */}
+                {/* {cert.certificateUrl && (
+                  <div className="mb-4 rounded-lg overflow-hidden border border-gray-600/30 bg-gray-900/50">
+                    <iframe
+                      src={cert.certificateUrl.replace('/view', '/preview')}
+                      className="w-full h-40 border-none"
+                      title={cert.title}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  </div> 
+                 )} */}
+
+                <div className="flex items-center justify-between gap-2">
+                  <span className={`text-xs font-bold ${colorClasses.dateColor} px-3 py-1 rounded-full ${isGreen ? 'bg-[#00D9FF]/10' : 'bg-[#0891B2]/15'}`}>
                     {cert.issueDate}
                   </span>
-                  {cert.certificateUrl ? (
-                    <a 
-                      href={cert.certificateUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className={`w-8 h-8 rounded-full ${colorClasses.iconBg} flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity hover:scale-110`}
-                      title="View Certificate"
-                    >
-                      <ExternalLink className={`w-4 h-4 ${colorClasses.iconColor}`} />
-                    </a>
-                  ) : (
-                    <div className={`w-8 h-8 rounded-full ${colorClasses.iconBg} flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity`}>
-                      <ExternalLink className={`w-4 h-4 ${colorClasses.iconColor}`} />
-                    </div>
-                  )}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg ${isGreen ? 'bg-[#00D9FF]/20 text-[#00D9FF] border border-[#00D9FF]/50 hover:bg-[#00D9FF]/30' : 'bg-[#0891B2]/20 text-[#0891B2] border border-[#0891B2]/50 hover:bg-[#0891B2]/30'} transition-colors flex items-center gap-2`}
+                    title="View Details"
+                  >
+                    <span>View Details</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </motion.button>
                 </div>
               </div>
             </motion.div>
@@ -1239,14 +1784,21 @@ export default function Portfolio() {
     <div id="membership" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
       {/* Background Effects - No AnimatedBackground here for contrast */}
       <div className="hidden md:block absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-1/3 right-1/3 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '0.8s' }} />
-        <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.8s' }} />
+        <div className="absolute top-1/3 right-1/3 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '0.8s' }} />
+        <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-[#0891B2]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.8s' }} />
       </div>
       
-      <motion.h2 {...createMotionDiv({initial: {y: 24}, whileInView: {y: 0}})}
-        className="text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6 md:mb-8 text-[#00BFFF] relative z-10">
-        Professional Memberships
-      </motion.h2>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-8 md:mb-10 relative z-10"
+      >
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">
+          Professional Memberships
+        </h2>
+        <p className="text-gray-400 text-sm md:text-base">Industry affiliations & professional networks</p>
+      </motion.div>
 
       <div className="flex flex-col md:flex-row flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 max-w-4xl mx-auto relative z-10">
         {memberships.map((membership, index) => {
@@ -1300,100 +1852,48 @@ export default function Portfolio() {
     </div>
 
     {/* Publications */}
-    <div id="publications" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
-      {/* Animated Background Component */}
+    <div id="publications" className="relative px-4 md:px-8 lg:px-12 py-12 md:py-14 lg:py-16 w-full overflow-hidden">
+      {/* Animated Background */}
       <AnimatedBackground />
       
-      {/* Additional Animated Background Effects */}
-      <div className="hidden md:block absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-0 left-1/3 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '0.3s' }} />
-        <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.3s' }} />
-      </div>
-      
-      <motion.h2 {...createMotionDiv({initial: {y: 24}, whileInView: {y: 0}})}
-        className="text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-6 md:mb-8 text-[#00FF00] relative z-10">
-        Research Publications
-      </motion.h2>
+      {/* Header Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-8 md:mb-10 relative z-10"
+      >
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">
+          Research Publications
+        </h2>
+        <p className="text-gray-400 text-sm md:text-base">Peer-reviewed papers & academic contributions</p>
+      </motion.div>
 
-      <div className="space-y-4 md:space-y-6 lg:space-y-8 relative z-10">
-        {publications.map((publication, index) => {
-          const colorClasses = getColorClasses(publication.color === 'green', 'publication');
-
-          return (
-            <motion.article key={publication.id} {...createMotionDiv({initial: {x: index % 2 === 0 ? -50 : 50}, whileInView: {x: 0}, transition: {duration: 0.7, delay: index * 0.1}})}
-              className={`relative p-4 md:p-6 lg:p-8 rounded-2xl ${colorClasses.bgCard} border-l-4 ${colorClasses.border} hover:shadow-2xl transition-all duration-500 group`}
-              style={{ boxShadow: `0 10px 30px ${colorClasses.accent}10` }}>
-
-              <div className="flex flex-col md:flex-row items-start gap-4 md:gap-5 lg:gap-6">
-                <div className={`flex-shrink-0 w-14 md:w-15 lg:w-16 h-14 md:h-15 lg:h-16 rounded-2xl ${colorClasses.iconBg} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
-                     style={{ boxShadow: `0 0 20px ${colorClasses.accent}30` }}>
-                  <BookOpen className={`w-7 md:w-7 lg:w-8 h-7 md:h-7 lg:h-8 ${colorClasses.iconColor}`} />
-                </div>
-
-                <div className="flex-1 space-y-4 min-w-0">
-                  <h3 className={`text-lg md:text-lg lg:text-xl font-bold ${colorClasses.titleColor} leading-tight group-hover:scale-[1.02] transition-transform duration-300`}>
-                    {publication.title}
-                  </h3>
-
-                  <div className={`${colorClasses.quoteBg} rounded-lg p-3 border-l-2`} style={{ borderColor: colorClasses.accent }}>
-                    <p className="text-gray-300 text-sm font-medium italic">
-                      <span className="text-gray-500">Authors:</span> {publication.authors}
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-2 h-2 rounded-full`} style={{ backgroundColor: colorClasses.accent }}></div>
-                      <p className="text-gray-400 text-sm font-semibold">{publication.journal}</p>
-                    </div>
-
-                    {publication.book && (
-                      <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full`} style={{ backgroundColor: colorClasses.secondary }}></div>
-                        <p className="text-gray-400 text-sm italic">Book: {publication.book}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400">
-                    <span className={`px-3 py-1 rounded-full font-bold`} style={{ backgroundColor: `${colorClasses.accent}20`, color: colorClasses.accent }}>
-                      {publication.year}
-                    </span>
-
-                    {publication.volume !== "Under Review" && publication.volume !== "Book Chapter" && (
-                      <span className="px-2 py-1 bg-gray-700 rounded">{publication.volume}</span>
-                    )}
-
-                    {publication.pages !== "--" && (
-                      <span className="px-2 py-1 bg-gray-700 rounded">{publication.pages}</span>
-                    )}
-
-                    {publication.doi !== "Pending" && (
-                      <span className="px-2 py-1 bg-blue-900/30 text-blue-300 rounded hover:bg-blue-800/30 cursor-pointer transition-colors">
-                        DOI: {publication.doi}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-bold ${colorClasses.statusBg} ${colorClasses.statusColor} shadow-md`}>
-                      <div className={`w-2 h-2 rounded-full mr-2 animate-pulse`} style={{ backgroundColor: colorClasses.accent }}></div>
-                      {publication.status}
-                    </span>
-
-                    <div className="text-xs text-gray-500 italic">Research Publication</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={`absolute top-4 right-4 w-8 h-8 rounded-full opacity-20 group-hover:opacity-40 transition-opacity`} style={{ backgroundColor: colorClasses.accent }}></div>
-              <div className={`absolute bottom-4 right-8 w-4 h-4 rounded-full opacity-10 group-hover:opacity-30 transition-opacity`} style={{ backgroundColor: colorClasses.secondary }}></div>
-            </motion.article>
-          );
-        })}
+      {/* Publications Grid with Flip Cards */}
+      <div className="relative z-10 max-w-6xl mx-auto">
+        {publications.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {publications.map((publication, index) => {
+              const colorClasses = getColorClasses(publication.color === 'green', 'publication');
+              return (
+                <PublicationCard
+                  key={publication.id}
+                  publication={publication}
+                  index={index}
+                  colorClasses={colorClasses}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <motion.div {...createMotionDiv({initial: {opacity: 0}, whileInView: {opacity: 1}})} className="text-center py-16 text-gray-500">
+            <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-20" />
+            <p className="text-lg font-semibold">No publications available</p>
+          </motion.div>
+        )}
       </div>
     </div>
-
+  
     {/* Projects */}
     <div id="projects" className="relative px-4 md:px-8 lg:px-12 py-8 md:py-10 lg:py-12 w-full overflow-hidden">
       {/* Animated Background Component */}
@@ -1401,16 +1901,23 @@ export default function Portfolio() {
       
       {/* Additional Animated Background Effects */}
       <div className="hidden md:block absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '0.6s' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.6s' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '0.6s' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#0891B2]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.6s' }} />
       </div>
       
-      <motion.h2 {...createMotionDiv({initial: {y: 24}, whileInView: {y: 0}})}
-        className="text-xl md:text-2xl lg:text-3xl font-semibold text-center mb-8 md:mb-10 lg:mb-12 text-[#00FF00] relative z-10">
-        Featured Projects
-      </motion.h2>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-8 md:mb-10 relative z-10"
+      >
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">
+          Featured Projects
+        </h2>
+        <p className="text-gray-400 text-sm md:text-base">Showcasing my best work & innovations</p>
+      </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8 relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 relative z-10">
         {projects.map((project, index) => {
           const isGreen = index % 2 === 0;
           const colorClasses = getColorClasses(isGreen, 'project');
@@ -1430,13 +1937,13 @@ export default function Portfolio() {
           return (
             <motion.div key={index} {...createMotionDiv({initial: {y: 40, scale: 0.95}, whileInView: {y: 0, scale: 1}, transition: {duration: 0.6, delay: index * 0.15}})}
               whileHover={{ y: -8, scale: 1.02 }}
-              className={`group relative p-4 md:p-5 lg:p-6 rounded-3xl ${colorClasses.cardBg} border-2 ${isGreen ? 'border-[#00FF00]/30 hover:border-[#00FF00]/70' : 'border-[#00BFFF]/30 hover:border-[#00BFFF]/70'} ${colorClasses.shadow} hover:${colorClasses.glow} transition-all duration-500`}>
+              className={`group relative p-4 md:p-5 lg:p-6 rounded-3xl ${colorClasses.cardBg} border-2 ${isGreen ? 'border-[#00D9FF]/30 hover:border-[#00D9FF]/70' : 'border-[#0891B2]/30 hover:border-[#0891B2]/70'} ${colorClasses.shadow} hover:${colorClasses.glow} transition-all duration-500`}>
 
               {/* Corner accent */}
-              <div className={`absolute top-0 right-0 w-20 h-20 ${isGreen ? 'bg-[#00FF00]' : 'bg-[#00BFFF]'}/5 rounded-bl-3xl rounded-tr-3xl`}></div>
+              <div className={`absolute top-0 right-0 w-20 h-20 ${isGreen ? 'bg-[#00D9FF]' : 'bg-[#0891B2]'}/5 rounded-bl-3xl rounded-tr-3xl`}></div>
 
               {/* Project number badge */}
-              <div className={`absolute -top-3 -left-3 w-8 h-8 rounded-full ${isGreen ? 'bg-[#00FF00]' : 'bg-[#00BFFF]'} text-black flex items-center justify-center text-sm font-bold shadow-lg`}>
+              <div className={`absolute -top-3 -left-3 w-8 h-8 rounded-full ${isGreen ? 'bg-[#00D9FF]' : 'bg-[#0891B2]'} text-black flex items-center justify-center text-sm font-bold shadow-lg`}>
                 {index + 1}
               </div>
 
@@ -1460,7 +1967,7 @@ export default function Portfolio() {
                 <div className="space-y-3">
                   <div className="flex flex-wrap gap-2 pt-6">
                     {project.tech.split(', ').map((tech, techIndex) => (
-                      <span key={techIndex} className={`px-3 py-1 text-xs font-medium rounded-full ${isGreen ? 'bg-[#00FF00]' : 'bg-[#00BFFF]'}/20 ${colorClasses.techColor} border ${isGreen ? 'border-[#00FF00]' : 'border-[#00BFFF]'}/40 hover:scale-105 transition-transform duration-200`}>
+                      <span key={techIndex} className={`px-3 py-1 text-xs font-medium rounded-full ${isGreen ? 'bg-[#00D9FF]' : 'bg-[#0891B2]'}/20 ${colorClasses.techColor} border ${isGreen ? 'border-[#00D9FF]' : 'border-[#0891B2]'}/40 hover:scale-105 transition-transform duration-200`}>
                         {tech.trim()}
                       </span>
                     ))}
@@ -1470,11 +1977,30 @@ export default function Portfolio() {
                 {/* Action buttons */}
                 <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-600/30">
                   <div className="flex items-center gap-2 text-xs text-gray-400">
-                    <div className={`w-2 h-2 rounded-full ${isGreen ? 'bg-[#00FF00]' : 'bg-[#00BFFF]'} animate-pulse`}></div>
+                    <div className={`w-2 h-2 rounded-full ${isGreen ? 'bg-[#00D9FF]' : 'bg-[#0891B2]'} animate-pulse`}></div>
                     Featured Project
                   </div>
 
-                  <div className="flex gap-3">
+                  <div className="flex gap-2">
+                    <motion.button
+                      onClick={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setProjectButtonPos({
+                          top: rect.top + window.scrollY,
+                          left: rect.left + window.scrollX,
+                          height: rect.height,
+                          width: rect.width,
+                        });
+                        setSelectedProject(project);
+                        setProjectModalOpen(true);
+                      }}
+                      whileHover={{ scale: 1.1 }} 
+                      whileTap={{ scale: 0.95 }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${isGreen ? 'bg-[#00D9FF]/20 text-[#00D9FF] border border-[#00D9FF]/50 hover:bg-[#00D9FF]/30' : 'bg-[#0891B2]/20 text-[#0891B2] border border-[#0891B2]/50 hover:bg-[#0891B2]/30'} transition-colors`}
+                      title="View Project Details"
+                    >
+                      View Details
+                    </motion.button>
                     {project.projectUrl && (
                       <motion.a 
                         href={project.projectUrl} 
@@ -1506,7 +2032,7 @@ export default function Portfolio() {
               </div>
 
               {/* Hover effect overlay */}
-              <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${isGreen ? 'bg-[#00FF00]' : 'bg-[#00BFFF]'}`}></div>
+              <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${isGreen ? 'bg-[#00D9FF]' : 'bg-[#0891B2]'}`}></div>
             </motion.div>
           );
         })}
@@ -1514,41 +2040,45 @@ export default function Portfolio() {
     </div>
 
     {/* Contact */}
-  <div id="contact" className="relative px-4 md:px-8 lg:px-12 py-6 md:py-8 lg:py-10 text-center w-full bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] overflow-hidden">
+  <div id="contact" className="relative px-4 md:px-8 lg:px-12 py-6 md:py-8 lg:py-10 w-full bg-gradient-to-r from-[#000000] via-[#0A0A0A] to-[#000000] overflow-hidden">
     {/* Animated Background Component */}
     <AnimatedBackground />
     
     {/* Additional Animated Background Effects */}
     <div className="hidden md:block absolute inset-0 pointer-events-none opacity-30">
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00FF00]/10 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00BFFF]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00D9FF]/10 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#0891B2]/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
     </div>
     
-  <h2 className="text-xl md:text-2xl lg:text-2xl font-semibold mb-4 text-[#00FF00] hover:underline decoration-[#00FF00] relative z-10">Contact</h2>
-        <p className="text-sm md:text-base lg:text-base text-gray-300 relative z-10">Interested in collaborating? Let's connect!</p>
-        <div className="mt-4 flex flex-col items-center gap-2 text-gray-300 relative z-10">
-          <a href="tel:9025381459" className="inline-flex items-center gap-2 text-sm md:text-base text-[#00FF00] hover:text-[#00BFFF] transition-colors">
-            <Phone size={18} />
-            <span>Phone: 9025381459</span>
-          </a>
-          <p className="text-xs md:text-sm">KPR Institute of Engineering and Technology</p>
-          <p className="text-xs md:text-sm">B.E CSE(AIML)</p>
+    <div className="relative z-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center mb-8 md:mb-10 relative z-10"
+      >
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">Get In Touch</h2>
+        <p className="text-gray-400 text-sm md:text-base">Have a question or want to collaborate? Send me a message!</p>
+      </motion.div>
+
+      {/* Contact Section with Social Card and Form */}
+      <div className="flex flex-col lg:flex-row items-stretch justify-center gap-4 w-full max-w-7xl mx-auto">
+        {/* Social Card */}
+        <div className="flex-1 flex items-center justify-center">
+          <SocialCard socialLinks={socialLinks} getIcon={getIcon} />
         </div>
-        <motion.div whileHover={{ scale: 1.1, transition: { duration: 0.3, ease: 'easeInOut' } }}>
-          <a 
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=dhamodharant17@gmail.com&su=Let's%20Connect&body=Hi%20Dhamodharan%2C%0A%0AI'd%20like%20to%20get%20in%20touch%20with%20you%20regarding...%0A%0ALooking%20forward%20to%20connecting%21%0A%0ABest%20regards"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-block bg-gradient-to-r from-[#00FF00] to-[#00BFFF] hover:from-[#00BFFF] hover:to-[#00FF00] text-black text-xs md:text-sm px-6 md:px-7 lg:px-8 py-2 rounded font-semibold transition-all duration-300"
-          >
-            Get in Touch
-          </a>
-        </motion.div>
+
+        {/* Contact Form */}
+        <div className="flex-1 min-h-full">
+          <ContactForm />
+        </div>
       </div>
+    </div>
+  </div>
 
     {/* Footer */}
-  <footer className="p-4 text-center text-sm bg-gradient-to-r from-[#001a00] via-[#003320] to-[#001a00] text-gray-400">
-        © 2025 Dhamodharan T.
+  <footer className="p-4 text-center text-sm bg-gradient-to-r from-[#000000] via-[#0A0A0A] to-[#000000] text-gray-400">
+        © 2025 Dhamodharan T. All Rights Reserved.
       </footer>
 
       <style>{`
@@ -1685,7 +2215,116 @@ export default function Portfolio() {
           transform: scale(1.05);
           will-change: transform;
         }
+
+        /* 3D Hover Effect for About Section Image */
+        .about-grid {
+          perspective: 1000px;
+        }
+
+        .card-3d-wrapper {
+          perspective: 1000px;
+          // transform-style: preserve-3d;
+        }
+
+        .card-3d {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          transform-style: preserve-3d;
+          will-change: transform;
+          transition: transform 0.5s ease;
+        }
+
+        .card-3d-wrapper:hover .card-3d {
+          transform: translateZ(5px) rotateX(5deg) rotateY(5deg);
+        }
+
+        .card-3d-wrapper:hover .image-3d {
+          transform: translateZ(15px);
+        }
+
+        .image-3d {
+          transition: transform 0.5s ease;
+          will-change: transform;
+        }
+
+        /* Name Rotating Color Animation */
+        @keyframes colorRotate {
+          0% {
+            background-position: 0% center;
+          }
+          50% {
+            background-position: 100% center;
+          }
+          100% {
+            background-position: 0% center;
+          }
+        }
+
+        .name-gradient-effect {
+          margin: 0;
+          padding: 0;
+          letter-spacing: 2px;
+          font-size: clamp(1.5rem, 5vw, 2.25rem);
+          font-family: "Arial", sans-serif;
+          font-weight: bold;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            #00D9FF 25%,
+            #00D9FF 50%,
+            rgba(255, 255, 255, 0.8) 75%,
+            rgba(255, 255, 255, 0.8) 100%
+          );
+          background-size: 200% 100%;
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: colorRotate 3s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.4));
+        }
+
+        /* Glass Card Social Links */
+        /* Styles removed - using SocialCard component instead */
+
+          .glass-card-label {
+            font-size: 0.75rem;
+          }
+        }
       `}</style>
+
+      {/* Project Details Popover */}
+      {selectedProject && (
+        <ProjectDetailsPopover 
+          project={selectedProject} 
+          isOpen={projectModalOpen}
+          position={projectButtonPos}
+          onClose={() => {
+            setProjectModalOpen(false);
+            setTimeout(() => {
+              setSelectedProject(null);
+            }, 300);
+          }}
+        />
+      )}
+
+      {/* Certificate Details Dialog */}
+      {selectedCertificate && (
+        <CertificateDetailsDialog
+          certificate={selectedCertificate}
+          isOpen={certificateDialogOpen}
+          position={certButtonPos}
+          onClose={() => {
+            setCertificateDialogOpen(false);
+            setTimeout(() => {
+              setSelectedCertificate(null);
+            }, 300);
+          }}
+        />
+      )}
     </div>
   );
 }
