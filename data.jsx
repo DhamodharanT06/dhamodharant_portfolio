@@ -226,7 +226,7 @@ export const publications = [
   {
     id: 2,
     title: "Self-Adaptive Vision-Based Smart Parking System",
-    authors: "Dhamodharan T",
+    authors: "Dhamodharan T, Dhanyasri K, Dharshan S V, Dharun Balaji K, Anish Antony",
     journal: "Engineering Advance",
     book: "Blockchain and AI for Security and Privacy in Smart Agriculture",
     year: "2025",
