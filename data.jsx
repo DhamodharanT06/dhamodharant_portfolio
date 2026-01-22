@@ -104,8 +104,8 @@ export const projects = [
     description: "Generates tailored job descriptions using AI and natural language processing.", 
     fullDescription: "An AI-powered tool that automatically generates professional job descriptions based on job role, requirements, and company details. Uses Google Gemini API for intelligent text generation and Flask backend for processing. Saves time for HR teams and ensures consistent formatting.",
     features: ["Role-based generation", "Requirement analysis", "Template support", "Export to multiple formats", "API integration"],
-    tech: "Python, Flask, Gemini API, HTML/CSS", 
-    projectUrl: "https://drive.google.com/drive/folders/1VlXCulyErYqxQ8I0E9rP6xgphqx_K1G-?usp=sharing", 
+    tech: "Python, Flask, API, HTML/CSS", 
+    projectUrl: "https://ai-job-description-creator.vercel.app/", 
     githubUrl: "https://github.com/DhamodharanT06/ai-job-description-creator.git" 
   },
   { 
@@ -114,7 +114,7 @@ export const projects = [
     fullDescription: "A machine learning application that predicts agricultural crop prices in the market using historical data and the Random Forest algorithm. Includes data preprocessing, model training, and a web interface for price prediction. Helps farmers and traders make informed decisions.",
     features: ["Price prediction", "Historical data analysis", "Model accuracy metrics", "Web dashboard", "CSV export"],
     tech: "Python, Flask, Scikit-learn, HTML/CSS, Pandas", 
-    projectUrl: "", 
+    projectUrl: "https://market-crop-price-prediction.vercel.app/", 
     githubUrl: "https://github.com/DhamodharanT06/market_crop_price_prediction.git" 
   },
   { 
@@ -255,6 +255,7 @@ export const socialLinks = [
   { href: 'https://www.linkedin.com/in/dhamodharan-t-57071b292/', iconName: 'Linkedin', label: 'LinkedIn' },
   { href: 'https://mail.google.com/mail/?view=cm&fs=1&to=dhamodharant17@gmail.com&su=Let\'s%20Connect&body=Hi%20Dhamodharan%2C%0A%0AI\'d%20like%20to%20get%20in%20touch%20with%20you%20regarding...%0A%0ALooking%20forward%20to%20connecting%21%0A%0ABest%20regards', iconName: 'Mail', label: 'Email' },
   { href: 'https://leetcode.com/u/DhamodharanT/', iconName: 'SiLeetcode', label: 'LeetCode' },
+  { href: 'https://www.figma.com/design/LOFhoHa5qbiSEi04443SOr/Dhamodharan-All-designs?node-id=0-1&t=ETSPYrEf8XPWEWgn-1', iconName: 'SiFigma', label: 'Figma' },
   { href: 'https://www.hackerrank.com/profile/23am017_KPRIET', iconName: 'TbBrandHackerrank', label: 'HackerRank' }
 ];
 
@@ -268,7 +269,8 @@ export const auroraConfigs = [
 /* Resume link (string) kept same */
 // export const resumeLink = "https://drive.google.com/file/d/1Egp24nAfganUMIbaUT7ABiS_DrzvvoDZ/view?usp=sharing";
 // export const resumeLink = "https://drive.google.com/file/d/1LNrGe_iYhRVmkCwkC0PobQBMEunrZ8Kn/view?usp=drive_link";
-export const resumeLink = "https://drive.google.com/file/d/1-YHSAe50igenOXtfFt5hx4dU1b4oD6ES/view?usp=sharing";
+// export const resumeLink = "https://drive.google.com/file/d/1-YHSAe50igenOXtfFt5hx4dU1b4oD6ES/view?usp=sharing";
+export const resumeLink = "https://drive.google.com/file/d/1JC_dIjl1ywgUtJc7sQLJemhhd3n6Rrxj/view?usp=sharing";
 
 /* UI Content & Static Text */
 // export const uiContent = {
