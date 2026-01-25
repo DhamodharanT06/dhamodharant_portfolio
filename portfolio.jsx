@@ -1047,8 +1047,8 @@ export default function Portfolio() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   return (
     <div
-      className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#000000] via-[#0A0A0A] to-[#000000] text-gray-100 select-none"
-      style={{ touchAction: 'pan-y', overscrollBehaviorX: 'none', overscrollBehaviorY: 'none' }}
+      className="min-h-dvh relative overflow-x-hidden bg-gradient-to-br from-[#000000] via-[#0A0A0A] to-[#000000] text-gray-100 select-none"
+      style={{ touchAction: 'pan-y', overscrollBehaviorX: 'none' }}
     >
       {/* Full Screen Background Animation */}
       <FullScreenBackground />
@@ -2140,7 +2140,7 @@ export default function Portfolio() {
 
         /* Global drag safeguards */
         html, body { 
-          overscroll-behavior: none; 
+          overscroll-behavior-x: none; 
           touch-action: pan-y; 
         }
         img, a { -webkit-user-drag: none; }
