@@ -270,7 +270,8 @@ export const auroraConfigs = [
 // export const resumeLink = "https://drive.google.com/file/d/1Egp24nAfganUMIbaUT7ABiS_DrzvvoDZ/view?usp=sharing";
 // export const resumeLink = "https://drive.google.com/file/d/1LNrGe_iYhRVmkCwkC0PobQBMEunrZ8Kn/view?usp=drive_link";
 // export const resumeLink = "https://drive.google.com/file/d/1-YHSAe50igenOXtfFt5hx4dU1b4oD6ES/view?usp=sharing";
-export const resumeLink = "https://drive.google.com/file/d/1JC_dIjl1ywgUtJc7sQLJemhhd3n6Rrxj/view?usp=sharing";
+// export const resumeLink = "https://drive.google.com/file/d/1JC_dIjl1ywgUtJc7sQLJemhhd3n6Rrxj/view?usp=sharing";
+export const resumeLink = "https://drive.google.com/file/d/1kqfTQiiqrXWT7BqVseE2SQeObvPGMhFb/view?usp=sharing";
 
 /* UI Content & Static Text */
 // export const uiContent = {
