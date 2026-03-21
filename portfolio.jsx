@@ -3,8 +3,8 @@ import { Github, Linkedin, Mail, Phone, Download, ChevronDown, ChevronUp, Extern
 import { motion } from "framer-motion";
 import { useRef, useEffect, useState, useMemo, memo } from "react";
 import { SiHackerrank, SiLeetcode } from "react-icons/si";
-import { FaPython, FaJava, FaCuttlefish, FaHackerrank, FaGit, FaGithub } from 'react-icons/fa';
-import { SiC, SiFlutter, SiDjango, SiFirebase, SiAndroidstudio,SiMysql, SiTensorflow, SiFigma, SiDart, SiHtml5, SiCss3, SiFlask, SiMongodb, SiJavascript, SiFastapi, SiPytorch, SiKeras } from 'react-icons/si';
+import { FaPython, FaJava, FaCuttlefish, FaHackerrank, FaGit, FaGithub, FaCogs, FaBrain, FaPalette } from 'react-icons/fa';
+import { SiC, SiFlutter, SiDjango, SiFirebase, SiSupabase, SiScikitlearn, SiAndroidstudio, SiMysql, SiTensorflow, SiFigma, SiDart, SiHtml5, SiCss3, SiFlask, SiMongodb, SiJavascript, SiFastapi, SiPytorch, SiKeras } from 'react-icons/si';
 import { TbBrandHackerrank } from "react-icons/tb";
 import { DiPostgresql } from "react-icons/di";
 
@@ -29,6 +29,7 @@ const iconMap = {
   DiPostgresql,
   SiMongodb,
   SiFirebase,
+  SiSupabase,
   SiTensorflow,
   SiPytorch,
   SiKeras,
@@ -36,6 +37,9 @@ const iconMap = {
   SiFigma,
   FaCuttlefish,
   FaGithub,
+  FaCogs,
+  FaBrain,
+  FaPalette,
   Github,
   Linkedin,
   Mail,

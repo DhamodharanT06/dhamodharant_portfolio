@@ -45,6 +45,7 @@ export const skillsByDomain = [
       { name: "PostgreSQL", color: "#00D9FF", iconName: "DiPostgresql", brightColor: "#00D9FF" },
       { name: "MongoDB", color: "#00D9FF", iconName: "SiMongodb", brightColor: "#00D9FF" },
       { name: "Firebase", color: "#00D9FF", iconName: "SiFirebase", brightColor: "#00D9FF" },
+      { name: "Supabase", color: "#00D9FF", iconName: "SiSupabase", brightColor: "#00D9FF" }
     ]
   },
   {
@@ -54,7 +55,9 @@ export const skillsByDomain = [
       { name: "Machine Learning", color: "#00D9FF", iconName: "SiTensorflow", brightColor: "#00F5FF" },
       { name: "TensorFlow", color: "#00D9FF", iconName: "SiTensorflow", brightColor: "#00D9FF" },
       { name: "PyTorch", color: "#00D9FF", iconName: "SiPytorch", brightColor: "#00D9FF" },
-      { name: "Keras", color: "#00D9FF", iconName: "SiKeras", brightColor: "#00D9FF" }
+      { name: "Keras", color: "#00D9FF", iconName: "SiKeras", brightColor: "#00D9FF" },
+      { name: "Scikit-learn", color: "#00D9FF", iconName: "FaBrain", brightColor: "#00D9FF" },
+      { name: "Mastra", color: "#00D9FF", iconName: "FaCogs", brightColor: "#00D9FF" }
     ]
   },
   {
@@ -62,6 +65,7 @@ export const skillsByDomain = [
     icon: "Brain",
     skills: [
       { name: "Figma UI/UX", color: "#00D9FF", iconName: "SiFigma", brightColor: "#00F5FF" },
+      { name: "Canva", color: "#00D9FF", iconName: "FaPalette", brightColor: "#00D9FF" },
       { name: "Github", color: "#00D9FF", iconName: "FaGithub", brightColor: "#00D9FF" },
       { name: "IoT", color: "#00D9FF", iconName: "FaCuttlefish", brightColor: "#00D9FF" }
     ]
@@ -135,6 +139,15 @@ export const projects = [
     projectUrl: "https://drive.google.com/drive/folders/1nw5c1B-I37ZvRy4TrmGviIPMfdCKlL4J?usp=sharing", 
     githubUrl: "https://github.com/DhamodharanT06/password_saver.git" 
   },
+  {
+    title: "Events and Clubs App",
+    description: "App to explore clubs, register for events, and interact using an AI-powered chat system.",
+    fullDescription: "A Flutter-based Events and Clubs application that helps students discover all clubs and events happening in one platform. Users can join clubs, register for events, and earn participation points which are displayed in a leaderboard. Each club page includes a chat system where users can ask questions related to the club or upcoming events. The app also includes an AI agent powered by an LLM model that provides insights, answers queries, and explains event details. It follows role-based authentication where admins can create and manage clubs and events, while users can browse, join, and participate in activities.",
+    features: ["Club and event listing", "Event and club registration", "Participation points system", "Leaderboard display", "AI chat support for clubs", "AI agent insights", "Role-based authentication (Admin/User)"],
+    tech: "Flutter, Dart, Supabase, LLM Integration",
+    projectUrl: "",
+    githubUrl: "https://github.com/DhamodharanT06/events_and_club_app.git"
+  },
   { 
     title: "Crime Rate Prediction", 
     description: "Predicts safe or unsafe zones based on date, time, and location using classification model.", 
@@ -166,12 +179,12 @@ export const academics = [
     id: 1,
     degree: "Bachelor of Engineering",
     field: "Computer Science and Engineering",
-    specialization: "AI & Machine Learning Specialization",
+    specialization: "AI & Machine Learning Specialization\nMinors: Industrial Internet of Things(IIoT)",
     institution: "KPR Institute of Engineering and Technology",
     startYear: "2023",
     endYear: "2027",
     status: "Expected 2027",
-    cgpa: "8.99",
+    cgpa: "8.92",
     color: "cyan",
     icon: "GraduationCap"
   },
@@ -183,7 +196,7 @@ export const academics = [
     institution: "Sri Vidya Mandir Senior Secondary School",
     startYear: "2021",
     endYear: "2023",
-    percentage: "91.7%",
+    percentage: "91.6%",
     color: "teal",
     icon: "BookOpen"
   },
@@ -195,7 +208,7 @@ export const academics = [
     institution: "Sri Vidya Mandir Senior Secondary School",
     startYear: "2020",
     endYear: "2021",
-    percentage: "88.9%",
+    percentage: "88.8%",
     color: "cyan",
     icon: "Award"
   }
@@ -203,7 +216,7 @@ export const academics = [
 
 export const internships = [
   { id: 1, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "green" },
-  { id: 2, company: "Onekit.inc", role: "Mobile Application Developer", duration: "Jul 2025 - Sep 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
+  { id: 2, company: "Onekit.inc", role: "Mobile Application Developer", duration: "Jul 2025 - Oct 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
   { id: 3, company: "Nitroware Technologies Pvt Ltd", role: "Machine Learning Intern", duration: "Jan 2025 - Feb 2025", description: "Learned about ML techniques and its backend integrations", technologies: "Python , Django , Flask , PyTorch , TensorFlow", color: "green" },
 ];
 
@@ -219,7 +232,6 @@ export const publications = [
     pages: "--",
     doi: "Pending",
     status: "Accepted to Publish",
-    // color: "green",
     about: "Authored a research-focused book chapter on privacy-preserving AI in agriculture, proposing federated learning, differential privacy, and encrypted collaboration to protect sensitive farm data. The work addresses ethical, legal, and scalability challenges while enabling secure, data-driven decision-making for sustainable agriculture.",
     link: "#"
   },
@@ -234,7 +246,6 @@ export const publications = [
     pages: "--",
     doi: "Pending",
     status: "Accepted to Publish",
-    // color: "green",
     about: "Authored a research paper proposing a YOLOv8-Seg–based smart parking system with Dynamic Slot Mapping for fine-grained parking occupancy detection, achieving high accuracy, low latency, and scalability without physical sensors. The system enhances urban parking management through real-time monitoring and efficient space utilization.",
     link: "#"
   },
@@ -252,7 +263,7 @@ export const navLinks = [
 
 export const socialLinks = [
   { href: 'https://github.com/DhamodharanT06', iconName: 'Github', label: 'GitHub' },
-  { href: 'https://www.linkedin.com/in/dhamodharan-t-57071b292/', iconName: 'Linkedin', label: 'LinkedIn' },
+  { href: 'https://www.linkedin.com/in/dhamodharan-t/', iconName: 'Linkedin', label: 'LinkedIn' },
   { href: 'https://mail.google.com/mail/?view=cm&fs=1&to=dhamodharant17@gmail.com&su=Let\'s%20Connect&body=Hi%20Dhamodharan%2C%0A%0AI\'d%20like%20to%20get%20in%20touch%20with%20you%20regarding...%0A%0ALooking%20forward%20to%20connecting%21%0A%0ABest%20regards', iconName: 'Mail', label: 'Email' },
   { href: 'https://leetcode.com/u/DhamodharanT/', iconName: 'SiLeetcode', label: 'LeetCode' },
   { href: 'https://www.figma.com/design/LOFhoHa5qbiSEi04443SOr/Dhamodharan-All-designs?node-id=0-1&t=ETSPYrEf8XPWEWgn-1', iconName: 'SiFigma', label: 'Figma' },

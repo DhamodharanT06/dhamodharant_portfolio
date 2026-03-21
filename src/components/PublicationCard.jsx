@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const PublicationCard = ({ publication, index, colorClasses }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [showStatusDialog, setShowStatusDialog] = useState(false);
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const handleCardClick = () => {
@@ -13,8 +14,60 @@ const PublicationCard = ({ publication, index, colorClasses }) => {
     }
   };
 
+  const handleReadPaperClick = (e) => {
+    e.preventDefault();
+    if (publication.link === '#') {
+      setShowStatusDialog(true);
+    } else {
+      window.open(publication.link, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   return (
     <StyledWrapper>
+      {/* Status Dialog */}
+      {showStatusDialog && (
+        <div className="dialog-overlay" onClick={() => setShowStatusDialog(false)}>
+          <motion.div
+            className="status-dialog"
+            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.7, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 35 }}
+          >
+            {/* Close Button */}
+            <button
+              className="dialog-close-btn"
+              onClick={() => setShowStatusDialog(false)}
+            >
+              <X size={20} />
+            </button>
+
+            {/* Dialog Content */}
+            <div className="dialog-content">
+              <h3 className="dialog-title">{publication.title}</h3>
+              
+              {/* Status Section */}
+              <div className="dialog-section">
+                <p className="dialog-label">Publication Status</p>
+                <p className="dialog-status">{publication.status}</p>
+              </div>
+
+              {/* DOI Section */}
+              <div className="dialog-section">
+                <p className="dialog-label">DOI</p>
+                <p className="dialog-doi">{publication.doi}</p>
+              </div>
+
+              {/* Info Text */}
+              <p className="dialog-info-text">
+                This publication is currently in {publication.status.toLowerCase()}. The DOI will be updated once the paper is fully published online.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       <motion.div
         initial={{ y: 15, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
@@ -78,15 +131,13 @@ const PublicationCard = ({ publication, index, colorClasses }) => {
 
               {/* Read Paper Button */}
               <div className="button-container">
-                <a
-                  href={publication.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={handleReadPaperClick}
                   className="read-paper-btn"
                 >
                   <ExternalLink className="icon" size={14} />
-                  <span>Read Paper</span>
-                </a>
+                  <span>{publication.link === '#' ? 'View Status' : 'Read Paper'}</span>
+                </button>
               </div>
             </div>
           </div>
@@ -528,6 +579,150 @@ const StyledWrapper = styled.div`
     .icon {
       width: 11px;
       height: 11px;
+    }
+  }
+
+  /* Dialog Overlay */
+  .dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  /* Status Dialog */
+  .status-dialog {
+    position: relative;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
+    border: 2px solid rgba(0, 217, 255, 0.4);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 0 60px rgba(0, 217, 255, 0.3), inset 0 0 40px rgba(0, 217, 255, 0.1);
+  }
+
+  .dialog-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 217, 255, 0.15);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    color: #00d9ff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(0, 217, 255, 0.3);
+      border-color: rgba(0, 217, 255, 0.6);
+      transform: rotate(90deg);
+    }
+  }
+
+  .dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .dialog-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #00d9ff;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .dialog-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(0, 217, 255, 0.08);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 10px;
+  }
+
+  .dialog-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(0, 217, 255, 0.6);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .dialog-status {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #4ade80;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .dialog-doi {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #00d9ff;
+    margin: 0;
+    word-break: break-all;
+  }
+
+  .dialog-info-text {
+    font-size: 0.9rem;
+    color: rgba(0, 217, 255, 0.75);
+    margin: 0;
+    line-height: 1.6;
+    font-style: italic;
+    padding: 1rem;
+    background: rgba(0, 217, 255, 0.05);
+    border-left: 3px solid rgba(0, 217, 255, 0.4);
+    border-radius: 6px;
+  }
+
+  @media (max-width: 640px) {
+    .status-dialog {
+      padding: 1.5rem;
+      width: 95%;
+    }
+
+    .dialog-title {
+      font-size: 1.1rem;
+    }
+
+    .dialog-section {
+      padding: 0.8rem;
+    }
+
+    .dialog-label {
+      font-size: 0.75rem;
+    }
+
+    .dialog-status {
+      font-size: 0.9rem;
+    }
+
+    .dialog-doi {
+      font-size: 0.85rem;
+    }
+
+    .dialog-info-text {
+      font-size: 0.8rem;
+      padding: 0.8rem;
     }
   }
 `;
