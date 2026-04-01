@@ -95,15 +95,6 @@ export const projects = [
     githubUrl: "" 
   },
   { 
-    title: "IPL Auction Game", 
-    description: "Interactive cricket IPL auction simulation game with dynamic gameplay.", 
-    fullDescription: "Created an engaging IPL (Indian Premier League) auction game where users can bid on players with a limited budget and build their winning team. The game features realistic auction mechanics, player statistics, and team management strategies. Built with interactive UI and real-time game logic.",
-    features: ["Budget management", "Player bidding", "Team composition", "Score calculation", "Leaderboard"],
-    tech: "Flutter, Dart", 
-    projectUrl: "", 
-    githubUrl: "" 
-  },
-  { 
     title: "AI Job Description Generator", 
     description: "Generates tailored job descriptions using AI and natural language processing.", 
     fullDescription: "An AI-powered tool that automatically generates professional job descriptions based on job role, requirements, and company details. Uses Google Gemini API for intelligent text generation and Flask backend for processing. Saves time for HR teams and ensures consistent formatting.",
@@ -111,6 +102,15 @@ export const projects = [
     tech: "Python, Flask, API, HTML/CSS", 
     projectUrl: "https://ai-job-description-creator.vercel.app/", 
     githubUrl: "https://github.com/DhamodharanT06/ai-job-description-creator.git" 
+  },
+  { 
+    title: "AI System Architect", 
+    description: "Design complete software architecture from a simple project idea using AI.",
+    fullDescription: "An AI-powered web application that converts a basic project idea into a complete system architecture plan. It generates structured blueprints including system design, workflow, modules, dependencies, and implementation guidance. The tool suggests suitable tech stacks, frameworks, and development steps to help developers and teams move quickly from concept to execution. Built with FastAPI backend and LLM API integration, the platform delivers intelligent architecture planning with a clear and shareable visual output.",
+    features: ["Idea-to-architecture generation","Automated system workflow design","Tech stack recommendations","Dependency and module breakdown","Shareable and downloadable architecture output"],
+    tech: "FastAPI, LLM API, JavaScript, Vercel", 
+    projectUrl: "https://ai-system-architecture.vercel.app/", 
+    githubUrl: "https://github.com/DhamodharanT06/ai-system-architect.git" 
   },
   { 
     title: "Market Crop Price Prediction", 
@@ -122,13 +122,13 @@ export const projects = [
     githubUrl: "https://github.com/DhamodharanT06/market_crop_price_prediction.git" 
   },
   { 
-    title: "Hand Cricket Game", 
-    description: "An engaging singleplayer hand cricket game built with Flutter for UI and Dart for game logic.", 
-    fullDescription: "A mobile game recreation of the popular hand cricket game. Players choose finger counts to decide between batting and bowling outcomes. Features realistic game mechanics, score tracking, and an intuitive Flutter UI with smooth animations and satisfying interactions.",
-    features: ["Single player mode", "Score tracking", "Innings management", "Statistics", "Game rules display"],
-    tech: "Flutter, Dart", 
-    projectUrl: "https://drive.google.com/drive/folders/1E-Ja73MCWjkwOheMWzPjYPpYFVjTKNCm?usp=sharing", 
-    githubUrl: "https://github.com/DhamodharanT06/random_cricket.git" 
+    title: "Crime Rate Prediction", 
+    description: "Predicts safe or unsafe zones based on date, time, and location using classification model.", 
+    fullDescription: "A machine learning application that predicts crime safety levels for specific locations, times, and dates using Random Forest classification. Built with Streamlit for interactive visualization and includes data analysis, model training, and real-time predictions with confidence scores.",
+    features: ["Real-time predictions", "Location-based analysis", "Time-based patterns", "Confidence scoring", "Interactive dashboard", "Data visualization"],
+    tech: "Python, Pandas, Scikit-learn, Streamlit", 
+    projectUrl: "https://drive.google.com/drive/folders/1eigFOPP3RYWfAxvPogPlkFrufP6m60aX?usp=sharing", 
+    githubUrl: "https://github.com/DhamodharanT06/crime_rate_prediction.git" 
   },
   { 
     title: "Password Manager App", 
@@ -136,7 +136,7 @@ export const projects = [
     fullDescription: "A secure Flutter-based password manager that stores passwords locally using Hive database. Features encryption, master password protection, password strength indicators, and a beautiful UI with Light/Dark mode support. Easy password generation and management.",
     features: ["Secure storage", "Password encryption", "Master password", "Password generator", "Light/Dark mode", "Search functionality"],
     tech: "Flutter, Dart, Hive, Cryptography", 
-    projectUrl: "https://drive.google.com/drive/folders/1nw5c1B-I37ZvRy4TrmGviIPMfdCKlL4J?usp=sharing", 
+    projectUrl: "https://play.google.com/store/apps/details?id=app.dynamicdragon.password_saver&pcampaignid=web_share", 
     githubUrl: "https://github.com/DhamodharanT06/password_saver.git" 
   },
   {
@@ -149,14 +149,14 @@ export const projects = [
     githubUrl: "https://github.com/DhamodharanT06/events_and_club_app.git"
   },
   { 
-    title: "Crime Rate Prediction", 
-    description: "Predicts safe or unsafe zones based on date, time, and location using classification model.", 
-    fullDescription: "A machine learning application that predicts crime safety levels for specific locations, times, and dates using Random Forest classification. Built with Streamlit for interactive visualization and includes data analysis, model training, and real-time predictions with confidence scores.",
-    features: ["Real-time predictions", "Location-based analysis", "Time-based patterns", "Confidence scoring", "Interactive dashboard", "Data visualization"],
-    tech: "Python, Pandas, Scikit-learn, Streamlit", 
-    projectUrl: "https://drive.google.com/drive/folders/1eigFOPP3RYWfAxvPogPlkFrufP6m60aX?usp=sharing", 
-    githubUrl: "https://github.com/DhamodharanT06/crime_rate_prediction.git" 
-  }
+    title: "Hand Cricket Game", 
+    description: "An engaging singleplayer hand cricket game built with Flutter for UI and Dart for game logic.", 
+    fullDescription: "A mobile game recreation of the popular hand cricket game. Players choose finger counts to decide between batting and bowling outcomes. Features realistic game mechanics, score tracking, and an intuitive Flutter UI with smooth animations and satisfying interactions.",
+    features: ["Single player mode", "Score tracking", "Innings management", "Statistics", "Game rules display"],
+    tech: "Flutter, Dart", 
+    projectUrl: "https://drive.google.com/drive/folders/1E-Ja73MCWjkwOheMWzPjYPpYFVjTKNCm?usp=sharing", 
+    githubUrl: "https://github.com/DhamodharanT06/random_cricket.git" 
+  },
 ];
 
 export const certificates = [
@@ -170,7 +170,7 @@ export const certificates = [
 ];
 
 export const memberships = [
-  { id: 1, title: "IEEE Chief Executive Member", organization: "Institute of Electrical and Electronics Engineers", status: "Active since 2024", color: "green" },
+  { id: 1, title: "IEEE Chief Executive Member", organization: "Institute of Electrical and Electronics Engineers", status: "2024 - 2025", color: "green" },
   { id: 2, title: "Designer Lead", organization: "Neuranest Association for Department", status: "Member since 2024", color: "blue" }
 ];
 
