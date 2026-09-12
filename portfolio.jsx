@@ -1203,7 +1203,8 @@ export default function Portfolio() {
         <div className="flex flex-col items-center gap-2 relative z-10">
           <h1 className="name-gradient-effect">Dhamodharan T</h1>
         </div>
-  <motion.p style={{ color: "#00D9FF" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Mobile Application Developer | AI & ML Engineer | UI/UX Designer</motion.p>
+          <motion.p style={{ color: "#00D9FF" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Technical Trainee @Zoho Corporations Private Limited</motion.p>
+          <motion.p style={{ color: "#00D9FF" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Mobile Application Developer | AI & ML Engineer | UI/UX Designer</motion.p>
         
         {/* Expandable Social Links Menu */}
         <div className="mt-6 relative z-10 flex justify-center">
