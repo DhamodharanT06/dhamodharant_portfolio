@@ -1538,7 +1538,7 @@ export default function Portfolio() {
         className="text-center mb-8 md:mb-10 relative z-10"
       >
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-[#00D9FF]">
-          Internship Experience
+          Experience
         </h2>
         <p className="text-gray-400 text-sm md:text-base">Professional work experience & skills gained</p>
       </motion.div>

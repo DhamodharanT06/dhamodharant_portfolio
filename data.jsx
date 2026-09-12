@@ -215,9 +215,10 @@ export const academics = [
 ];
 
 export const internships = [
-  { id: 1, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "green" },
-  { id: 2, company: "Onekit.inc", role: "Mobile Application Developer", duration: "Jul 2025 - Oct 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
-  { id: 3, company: "Nitroware Technologies Pvt Ltd", role: "Machine Learning Intern", duration: "Jan 2025 - Feb 2025", description: "Learned about ML techniques and its backend integrations", technologies: "Python , Django , Flask , PyTorch , TensorFlow", color: "green" },
+  { id: 1, company: "Zoho Corporations Private Limited", role: "Technical Trainee", duration: "Aug 2026 - Present", description: "Working on Backend development on realtime projects", technologies: "Java , JDBC , Tomcat , REST APIs , SQL", color: "green" },
+  { id: 2, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "green" },
+  { id: 3, company: "Velrona Technologies Private Limited", role: "Mobile Application Development Intern", duration: "Jul 2025 - Oct 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
+  { id: 4, company: "Nitroware Technologies Private Limited", role: "Machine Learning Intern", duration: "Jan 2025 - Feb 2025", description: "Learned about ML techniques and its backend integrations", technologies: "Python , Django , Flask , PyTorch , TensorFlow", color: "green" },
 ];
 
 export const publications = [
