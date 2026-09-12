@@ -108,8 +108,9 @@ export const projects = [
     description: "Design complete software architecture from a simple project idea using AI.",
     fullDescription: "An AI-powered web application that converts a basic project idea into a complete system architecture plan. It generates structured blueprints including system design, workflow, modules, dependencies, and implementation guidance. The tool suggests suitable tech stacks, frameworks, and development steps to help developers and teams move quickly from concept to execution. Built with FastAPI backend and LLM API integration, the platform delivers intelligent architecture planning with a clear and shareable visual output.",
     features: ["Idea-to-architecture generation","Automated system workflow design","Tech stack recommendations","Dependency and module breakdown","Shareable and downloadable architecture output"],
-    tech: "FastAPI, LLM API, JavaScript, Vercel", 
+    tech: "FastAPI, LLM API, Flutter, JavaScript, Vercel", 
     projectUrl: "https://ai-system-architecture.vercel.app/", 
+    googlePlayUrl: "https://play.google.com/store/apps/details?id=app.dynamicdragon.ai_system_architecture&pcampaignid=web_share",
     githubUrl: "https://github.com/DhamodharanT06/ai-system-architect.git" 
   },
   { 
@@ -216,9 +217,9 @@ export const academics = [
 
 export const internships = [
   { id: 1, company: "Zoho Corporations Private Limited", role: "Technical Trainee", duration: "Aug 2026 - Present", description: "Working on Backend development on realtime projects", technologies: "Java , JDBC , Tomcat , REST APIs , SQL", color: "green" },
-  { id: 2, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "green" },
+  { id: 2, company: "Hyperready Technologies LLP", role: "Junior Developer Intern", duration: "Oct 2025 - Feb 2026", description: "Working AI agents , LLM development and this Backend on realtime project", technologies: "Mastra , Python , Typescript , PyTorch , TensorFlow", color: "blue" },
   { id: 3, company: "Velrona Technologies Private Limited", role: "Mobile Application Development Intern", duration: "Jul 2025 - Oct 2025", description: "Developed realtime project on mobile app and its backend integrations", technologies: "Flutter , Dart , Firebase , Figma", color: "blue" },
-  { id: 4, company: "Nitroware Technologies Private Limited", role: "Machine Learning Intern", duration: "Jan 2025 - Feb 2025", description: "Learned about ML techniques and its backend integrations", technologies: "Python , Django , Flask , PyTorch , TensorFlow", color: "green" },
+  { id: 4, company: "Nitroware Technologies Private Limited", role: "Machine Learning Intern", duration: "Jan 2025 - Feb 2025", description: "Learned about ML techniques and its backend integrations", technologies: "Python , Django , Flask , PyTorch , TensorFlow", color: "blue" },
 ];
 
 export const publications = [
@@ -268,7 +269,8 @@ export const socialLinks = [
   { href: 'https://mail.google.com/mail/?view=cm&fs=1&to=dhamodharant17@gmail.com&su=Let\'s%20Connect&body=Hi%20Dhamodharan%2C%0A%0AI\'d%20like%20to%20get%20in%20touch%20with%20you%20regarding...%0A%0ALooking%20forward%20to%20connecting%21%0A%0ABest%20regards', iconName: 'Mail', label: 'Email' },
   { href: 'https://leetcode.com/u/DhamodharanT/', iconName: 'SiLeetcode', label: 'LeetCode' },
   { href: 'https://www.figma.com/design/LOFhoHa5qbiSEi04443SOr/Dhamodharan-All-designs?node-id=0-1&t=ETSPYrEf8XPWEWgn-1', iconName: 'SiFigma', label: 'Figma' },
-  { href: 'https://www.hackerrank.com/profile/23am017_KPRIET', iconName: 'TbBrandHackerrank', label: 'HackerRank' }
+  { href: 'https://www.hackerrank.com/profile/23am017_KPRIET', iconName: 'TbBrandHackerrank', label: 'HackerRank' },
+  { href: 'https://play.google.com/store/apps/developer?id=Dynamic+Dragon', iconName: 'SiGoogleplay', label: 'Play Store' },
 ];
 
 // /* Keep auroraConfigs variable name for compatibility though background will be replaced */

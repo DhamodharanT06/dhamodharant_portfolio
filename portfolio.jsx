@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useRef, useEffect, useState, useMemo, memo } from "react";
 import { SiHackerrank, SiLeetcode } from "react-icons/si";
 import { FaPython, FaJava, FaCuttlefish, FaHackerrank, FaGit, FaGithub, FaCogs, FaBrain, FaPalette } from 'react-icons/fa';
-import { SiC, SiFlutter, SiDjango, SiFirebase, SiSupabase, SiScikitlearn, SiAndroidstudio, SiMysql, SiTensorflow, SiFigma, SiDart, SiHtml5, SiCss3, SiFlask, SiMongodb, SiJavascript, SiFastapi, SiPytorch, SiKeras } from 'react-icons/si';
+import { SiC, SiFlutter, SiDjango, SiFirebase, SiSupabase, SiScikitlearn, SiGoogleplay, SiAndroidstudio, SiMysql, SiTensorflow, SiFigma, SiDart, SiHtml5, SiCss3, SiFlask, SiMongodb, SiJavascript, SiFastapi, SiPytorch, SiKeras } from 'react-icons/si';
 import { TbBrandHackerrank } from "react-icons/tb";
 import { DiPostgresql } from "react-icons/di";
 
@@ -44,6 +44,7 @@ const iconMap = {
   Linkedin,
   Mail,
   TbBrandHackerrank,
+  SiGoogleplay,
   SiLeetcode,
   FaHackerrank,
   // Add more as needed
@@ -195,7 +196,7 @@ const ProjectDetailsPopover = ({ project, isOpen, onClose, position }) => {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.25 + idx * 0.03 }}
-                    className="px-4 py-2 bg-gradient-to-r from-[#00D9FF]/20 to-[#0891B2]/20 border border-[#00D9FF]/40 rounded-full text-sm text-[#00D9FF] font-semibold hover:shadow-lg hover:shadow-[#00D9FF]/30 transition-all duration-300"
+                    className="px-4 py-2 bg-gradient-to-r from-[#00D9FF]/20 to-[#0891B2]/20 border border-[#00D9FF]/40 rounded-full rounded-bl-none text-sm text-[#00D9FF] font-semibold hover:shadow-lg hover:shadow-[#00D9FF]/30 transition-all duration-300"
                   >
                     {tech.trim()}
                   </motion.span>
@@ -221,6 +222,19 @@ const ProjectDetailsPopover = ({ project, isOpen, onClose, position }) => {
                 >
                   <ExternalLink className="w-4 h-4" />
                   View Project
+                </motion.a>
+              )}
+              {project.googlePlayUrl && (
+                <motion.a
+                  href={project.googlePlayUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-[#0891B2]/20 to-[#0891B2]/10 border border-[#0891B2]/50 rounded-xl text-[#0891B2] font-bold hover:bg-gradient-to-r hover:from-[#0891B2]/30 hover:to-[#0891B2]/20 hover:shadow-lg hover:shadow-[#0891B2]/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                >
+                  <SiGoogleplay className="w-4 h-4" />
+                  Google Play
                 </motion.a>
               )}
               {project.githubUrl && (
@@ -1203,8 +1217,8 @@ export default function Portfolio() {
         <div className="flex flex-col items-center gap-2 relative z-10">
           <h1 className="name-gradient-effect">Dhamodharan T</h1>
         </div>
-          <motion.p style={{ color: "#00D9FF" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Technical Trainee @Zoho Corporations Private Limited</motion.p>
-          <motion.p style={{ color: "#00D9FF" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Mobile Application Developer | AI & ML Engineer | UI/UX Designer</motion.p>
+          <motion.p style={{ color: "#00D9FF" }}  className="text-sm md:text-base italic lg:text-lg mt-1 leading-snug relative z-10">Technical Trainee @Zoho Corporations Private Limited</motion.p>
+          {/* <motion.p style={{ color: "#00D9FF" }}  className="text-sm md:text-base lg:text-lg mt-2 leading-snug relative z-10">Mobile Application Developer | AI & ML Engineer | UI/UX Designer</motion.p> */}
         
         {/* Expandable Social Links Menu */}
         <div className="mt-6 relative z-10 flex justify-center">
@@ -1281,8 +1295,9 @@ export default function Portfolio() {
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
           >
             <h2 className="text-2xl md:text-2xl lg:text-3xl font-semibold mb-4 text-[#00D9FF]">About Me</h2>
+            <motion.p style={{ color: "#00D9FF" }}  className="text-sm font-semibold italic opacity-80 md:text-base lg:text-sm mt-1 mb-4 leading-snug relative z-10">"MOBILE APPLICATION DELVELOPER , AI & ML ENGINEER , UI/UX DESIGNER"</motion.p>
             <p className="text-gray-300 text-sm md:text-base lg:text-base leading-relaxed">
-              Passionate developer with experience in Mobile App Development, Machine Learning, IoT, and UI/UX Design.
+              Passionate developer with experience in Mobile App Development, Machine Learning, and UI/UX Design.
               I enjoy building interactive, real-time applications and polished user experiences.
             </p>
           </motion.div>
@@ -1972,7 +1987,7 @@ export default function Portfolio() {
                 <div className="space-y-3">
                   <div className="flex flex-wrap gap-2 pt-6">
                     {project.tech.split(', ').map((tech, techIndex) => (
-                      <span key={techIndex} className={`px-3 py-1 text-xs font-medium rounded-full ${isGreen ? 'bg-[#00D9FF]' : 'bg-[#0891B2]'}/20 ${colorClasses.techColor} border ${isGreen ? 'border-[#00D9FF]' : 'border-[#0891B2]'}/40 hover:scale-105 transition-transform duration-200`}>
+                      <span key={techIndex} className={`px-3 py-1 text-xs font-medium rounded-full rounded-bl-none ${isGreen ? 'bg-[#00D9FF]' : 'bg-[#0891B2]'}/20 ${colorClasses.techColor} border ${isGreen ? 'border-[#00D9FF]' : 'border-[#0891B2]'}/40 hover:scale-105 transition-transform duration-200`}>
                         {tech.trim()}
                       </span>
                     ))}
@@ -2017,6 +2032,19 @@ export default function Portfolio() {
                         title="View Project"
                       >
                         <ExternalLink className={`w-5 h-5 ${colorClasses.iconColor}`} />
+                      </motion.a>
+                    )}
+                    {project.googlePlayUrl && (
+                      <motion.a 
+                        href={project.googlePlayUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.1 }} 
+                        whileTap={{ scale: 0.95 }}
+                        className={`w-10 h-10 rounded-full ${colorClasses.iconBg} flex items-center justify-center group-hover:shadow-lg transition-all duration-300`}
+                        title="View on Google Play"
+                      >
+                        <SiGoogleplay className={`w-5 h-5 ${colorClasses.iconColor}`} />
                       </motion.a>
                     )}
                     {project.githubUrl && (
